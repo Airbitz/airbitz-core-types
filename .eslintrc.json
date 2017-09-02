@@ -1,0 +1,16 @@
+{
+  "extends": "standard",
+  "parser": "babel-eslint",
+  "plugins": [
+    "flowtype",
+    "standard"
+  ],
+  "rules": {
+    "camelcase": "error",
+    "no-throw-literal": "error",
+    "no-var": "error",
+    "prefer-const": "error",
+    "promise/always-return": "error",
+    "promise/no-return-wrap": "error"
+  }
+}
