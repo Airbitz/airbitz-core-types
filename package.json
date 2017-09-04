@@ -2,30 +2,31 @@
   "name": "airbitz-core-types",
   "version": "0.0.1",
   "description": "Flow types for airbitz-core-js",
-  "main": "indexAbcTypes.js",
-  "scripts": {
-    "precommit": "npm build",
-    "build": "npm run flow && npm run lint",
-    "flow": "flow",
-    "updot": "updot",
-    "prepare": "npm run build",
-    "cover": "nyc --reporter=lcov --reporter=text --reporter=html --extension .js npm test",
-    "lint --fix": "standard '*.js' 'src/**/*.js' 'test/**/*.js' --fix",
-    "lint": "standard '*.js' 'src/**/*.js' 'test/**/*.js'"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Airbitz/airbitz-core-types.git"
-  },
   "keywords": [
     "airbitz",
     "flow",
     "types"
   ],
-  "author": "Paul Puey <paul@airbitz.co>",
-  "license": "MIT",
+  "homepage": "https://github.com/Airbitz/airbitz-core-types#readme",
   "bugs": {
     "url": "https://github.com/Airbitz/airbitz-core-types/issues"
+  },
+  "license": "MIT",
+  "author": "Paul Puey <paul@airbitz.co>",
+  "main": "indexAbcTypes.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Airbitz/airbitz-core-types.git"
+  },
+  "scripts": {
+    "build": "npm run flow && npm run lint",
+    "precommit": "npm build",
+    "cover": "nyc --reporter=lcov --reporter=text --reporter=html --extension .js npm test",
+    "flow": "flow",
+    "lint": "standard '*.js' 'src/**/*.js' 'test/**/*.js'",
+    "lint --fix": "standard '*.js' 'src/**/*.js' 'test/**/*.js' --fix",
+    "prepare": "npm run build",
+    "updot": "updot"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -33,15 +34,14 @@
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-flow": "^6.23.0",
     "eslint-plugin-flowtype": "^2.34.1",
+    "flow-bin": "^0.53.1",
     "husky": "^0.14.3",
-    "standard": "^10.0.2",
-    "flow-bin": "^0.53.1"
+    "standard": "^10.0.2"
   },
   "standard": {
     "parser": "babel-eslint",
     "plugins": [
       "flowtype"
     ]
-  },
-  "homepage": "https://github.com/Airbitz/airbitz-core-types#readme"
+  }
 }
