@@ -13,17 +13,17 @@
   },
   "license": "MIT",
   "author": "Paul Puey <paul@airbitz.co>",
-  "main": "lib/indexAbcTypes.js",
+  "main": "indexAbcTypes.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Airbitz/airbitz-core-types.git"
   },
   "scripts": {
-    "build": "flow-copy-source src lib && flow-remove-types -d lib/ src/",
-    "precommit": "npm run flow && npm run lint",
+    "build": "npm run flow && npm run lint",
+    "precommit": "npm run build",
     "flow": "flow",
     "lint": "standard '*.js'",
-    "prepare": "npm run build && npm run flow && npm run lint"
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -32,8 +32,6 @@
     "babel-preset-flow": "^6.23.0",
     "eslint-plugin-flowtype": "^2.34.1",
     "flow-bin": "^0.53.1",
-    "flow-copy-source": "^1.2.1",
-    "flow-remove-types": "^1.2.1",
     "husky": "^0.14.3",
     "standard": "^10.0.2"
   },
