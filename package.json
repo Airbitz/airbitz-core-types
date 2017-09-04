@@ -20,13 +20,10 @@
   },
   "scripts": {
     "build": "npm run flow && npm run lint",
-    "precommit": "npm build",
-    "cover": "nyc --reporter=lcov --reporter=text --reporter=html --extension .js npm test",
+    "precommit": "npm run build",
     "flow": "flow",
-    "lint": "standard '*.js' 'src/**/*.js' 'test/**/*.js'",
-    "lint --fix": "standard '*.js' 'src/**/*.js' 'test/**/*.js' --fix",
-    "prepare": "npm run build",
-    "updot": "updot"
+    "lint": "standard '*.js'",
+    "prepare": "npm run build"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
