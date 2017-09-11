@@ -3,43 +3,7 @@
  */
 // @flow
 
-export type AbcMetadata = {
-  name?: string,
-  category?: string,
-  notes?: string,
-  amountFiat?: number,
-  bizId?: number,
-  miscJson?: string
-}
-
-export type AbcSpendTarget = {
-  currencyCode?: string,
-  destWallet?: any,
-  publicAddress?: string,
-  nativeAmount?: string,
-  destMetadata?: AbcMetadata
-}
-
-export type AbcSpendInfo = {
-  currencyCode?: string,
-  noUnconfirmed?: boolean,
-  spendTargets: Array<AbcSpendTarget>,
-  networkFeeOption?: string,
-  customNetworkFee?: string,
-  metadata?: AbcMetadata
-}
-
-export type AbcTransaction = {
-  txid: string,
-  date: number,
-  currencyCode: string,
-  blockHeight: number,
-  nativeAmount: string,
-  networkFee: string,
-  ourReceiveAddresses: Array<string>,
-  signedTx: string,
-  otherParams: any
-}
+// context types ------------------------------------------------------
 
 export type AbcMakeContextOpts = {
   apiKey: string,
@@ -48,56 +12,14 @@ export type AbcMakeContextOpts = {
   plugins: Array<any>
 }
 
-export interface AbcDenomination {
-  name: string,
-  multiplier: string,
-  symbol?: string
-}
+export interface AbcContext {}
 
-export interface AbcMetaToken {
-  currencyCode: string,
-  currencyName: string,
-  denominations: Array<AbcDenomination>,
-  contractAddress?: string,
-  symbolImage?: string
-}
-
-export type AbcCurrencySettings = {
-  addressExplorer: string,
-  transactionExplorer: string,
-  denomCurrencyCode: string,
-  otherSettings: any
-}
-
-export type AbcCurrencyInfo = {
-  walletTypes: Array<string>,
-  currencyName: string,
-  currencyCode: string,
-  defaultSettings: AbcCurrencySettings,
-  denominations: Array<AbcDenomination>,
-  symbolImage?: string,
-  metaTokens: Array<AbcMetaToken>
-}
-
-export type AbcParsedUri = {
-  publicAddress: string,
-  nativeAmount?: string,
-  currencyCode?: string,
-  label?: string,
-  message?: string
-}
+// account types ------------------------------------------------------
 
 export type AbcWalletInfo = {
   id?: string,
   type: string,
   keys: any
-}
-
-export type AbcEncodeUri = {
-  publicAddress: string,
-  nativeAmount?: string,
-  label?: string,
-  message?: string
 }
 
 export type AbcWalletState = {
@@ -156,7 +78,95 @@ export interface AbcAccount {
   createWallet(type: string, keys: any): string
 }
 
-export interface AbcContext {}
+// currency wallet types ----------------------------------------------
+
+export interface AbcCurrencyWallet {}
+
+export type AbcMetadata = {
+  name?: string,
+  category?: string,
+  notes?: string,
+  amountFiat?: number,
+  bizId?: number,
+  miscJson?: string
+}
+
+export type AbcSpendTarget = {
+  currencyCode?: string,
+  destWallet?: any,
+  publicAddress?: string,
+  nativeAmount?: string,
+  destMetadata?: AbcMetadata
+}
+
+export type AbcSpendInfo = {
+  currencyCode?: string,
+  noUnconfirmed?: boolean,
+  spendTargets: Array<AbcSpendTarget>,
+  networkFeeOption?: string,
+  customNetworkFee?: string,
+  metadata?: AbcMetadata
+}
+
+export type AbcTransaction = {
+  txid: string,
+  date: number,
+  currencyCode: string,
+  blockHeight: number,
+  nativeAmount: string,
+  networkFee: string,
+  ourReceiveAddresses: Array<string>,
+  signedTx: string,
+  otherParams: any
+}
+
+export interface AbcDenomination {
+  name: string,
+  multiplier: string,
+  symbol?: string
+}
+
+export interface AbcMetaToken {
+  currencyCode: string,
+  currencyName: string,
+  denominations: Array<AbcDenomination>,
+  contractAddress?: string,
+  symbolImage?: string
+}
+
+export type AbcCurrencySettings = {
+  addressExplorer: string,
+  transactionExplorer: string,
+  denomCurrencyCode: string,
+  otherSettings: any
+}
+
+export type AbcCurrencyInfo = {
+  walletTypes: Array<string>,
+  currencyName: string,
+  currencyCode: string,
+  defaultSettings: AbcCurrencySettings,
+  denominations: Array<AbcDenomination>,
+  symbolImage?: string,
+  metaTokens: Array<AbcMetaToken>
+}
+
+export type AbcParsedUri = {
+  publicAddress: string,
+  nativeAmount?: string,
+  currencyCode?: string,
+  label?: string,
+  message?: string
+}
+
+export type AbcEncodeUri = {
+  publicAddress: string,
+  nativeAmount?: string,
+  label?: string,
+  message?: string
+}
+
+// currency plugin types ----------------------------------------------
 
 export interface AbcCurrencyEngine {
   updateSettings(settings: any): void,
@@ -203,5 +213,6 @@ export type AbcMakeEngineOptions = {
 }
 
 export interface AbcCurrencyPluginFactory {
+  pluginType: 'currency',
   static makePlugin(opts: {}): Promise<AbcCurrencyPlugin>
 }
