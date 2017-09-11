@@ -58,11 +58,12 @@ export type AbcIo = {
 
 // context types ------------------------------------------------------
 
+/* eslint-disable no-use-before-define */
 export type AbcMakeContextOpts = {
   apiKey: string,
   appId: string,
   io: any,
-  plugins: Array<any>
+  plugins: Array<AbcCurrencyPluginFactory | AbcExchangePluginFactory>
 }
 
 export interface AbcContext {}
@@ -267,5 +268,31 @@ export type AbcMakeEngineOptions = {
 
 export interface AbcCurrencyPluginFactory {
   pluginType: 'currency',
-  static makePlugin(opts: {}): Promise<AbcCurrencyPlugin>
+  static makePlugin(opts: { io: AbcIo }): Promise<AbcCurrencyPlugin>
+}
+
+// exchange plugin types ----------------------------------------------
+
+export interface AbcExchangePairHint {
+  fromCurrency: string,
+  toCurrency: string
+}
+
+export interface AbcExchangePair {
+  fromCurrency: string,
+  toCurrency: string,
+  rate: number
+}
+
+export interface AbcExchangePlugin {
+  exchangeInfo: { exchangeName: string },
+
+  fetchExchangeRates(
+    pairHints: Array<AbcExchangePairHint>
+  ): Array<AbcExchangePair>
+}
+
+export interface AbcExchangePluginFactory {
+  pluginType: 'exchange',
+  static makePlugin(opts: { io: AbcIo }): Promise<AbcExchangePlugin>
 }
