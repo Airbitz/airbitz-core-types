@@ -22,7 +22,7 @@
     "build": "npm run flow && npm run lint",
     "precommit": "npm run build",
     "flow": "flow",
-    "lint": "standard '*.js'",
+    "lint": "eslint '*.js'",
     "prepare": "npm run build"
   },
   "devDependencies": {
@@ -30,10 +30,15 @@
     "babel-eslint": "^7.2.3",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-flow": "^6.23.0",
+    "eslint": "^4.6.1",
+    "eslint-config-standard": "^10.2.1",
     "eslint-plugin-flowtype": "^2.34.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
     "flow-bin": "^0.53.1",
-    "husky": "^0.14.3",
-    "standard": "^10.0.2"
+    "husky": "^0.14.3"
   },
   "standard": {
     "parser": "babel-eslint",
