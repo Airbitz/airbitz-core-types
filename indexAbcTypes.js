@@ -27,6 +27,9 @@ export type FetchFunction = typeof fetch
 // Node.js randomBytes function:
 export type RandomFunction = (bytes: number) => Uint8Array
 
+// TODO: The node.js `net` interface:
+export interface NodeNet {}
+
 // The only subset of `Console` that Airbitz uses:
 export interface AbcConsole {
   error(...data: Array<any>): void,
@@ -53,17 +56,24 @@ export type AbcIo = {
   console?: AbcConsole,
   folder?: DiskletFolder,
   localStorage?: Storage,
+  net?: NodeNet,
   scrypt?: AbcScryptFunction
 }
 
 // context types ------------------------------------------------------
 
+export interface AbcContextCallbacks {
+  onError?: (e: Error) => void
+}
+
 /* eslint-disable no-use-before-define */
-export type AbcMakeContextOpts = {
-  apiKey: string,
-  appId: string,
-  io: any,
-  plugins: Array<AbcCurrencyPluginFactory | AbcExchangePluginFactory>
+export type AbcContextOptions = {
+  apiKey?: string,
+  appId?: string,
+  authServer?: string,
+  callbacks?: AbcContextCallbacks,
+  io?: AbcIo,
+  plugins?: Array<AbcCurrencyPluginFactory | AbcExchangePluginFactory>
 }
 
 export interface AbcContext {}
