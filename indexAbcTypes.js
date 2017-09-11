@@ -3,6 +3,59 @@
  */
 // @flow
 
+// io types -----------------------------------------------------------
+
+export interface DiskletFile {
+  delete(): Promise<void>,
+  getData(): Promise<Uint8Array>,
+  getText(): Promise<string>,
+  setData(data: Array<number> | Uint8Array): Promise<void>,
+  setText(text: string): Promise<void>
+}
+
+export interface DiskletFolder {
+  delete(): Promise<void>,
+  file(name: string): DiskletFile,
+  folder(name: string): DiskletFolder,
+  listFiles(): Promise<Array<string>>,
+  listFolders(): Promise<Array<string>>
+}
+
+// Browser fetch function:
+export type FetchFunction = typeof fetch
+
+// Node.js randomBytes function:
+export type RandomFunction = (bytes: number) => Uint8Array
+
+// The only subset of `Console` that Airbitz uses:
+export interface AbcConsole {
+  error(...data: Array<any>): void,
+  info(...data: Array<any>): void,
+  warn(...data: Array<any>): void
+}
+
+// The scrypt function Airbitz expects:
+export type AbcScryptFunction = (
+  data: Uint8Array,
+  salt: Uint8Array,
+  n: number,
+  r: number,
+  p: number,
+  dklen: number
+) => Promise<Uint8Array>
+
+export type AbcIo = {
+  // Must-have items:
+  fetch: FetchFunction,
+  random: RandomFunction,
+
+  // Optional items (the core will use JS versions):
+  console?: AbcConsole,
+  folder?: DiskletFolder,
+  localStorage?: Storage,
+  scrypt?: AbcScryptFunction
+}
+
 // context types ------------------------------------------------------
 
 export type AbcMakeContextOpts = {
