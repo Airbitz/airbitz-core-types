@@ -200,17 +200,13 @@ export interface AbcMetaToken {
   symbolImage?: string
 }
 
-export type AbcCurrencySettings = {
-  otherSettings?: any
-}
-
 export type AbcCurrencyInfo = {
   walletTypes: Array<string>,
   currencyName: string,
   currencyCode: string,
   addressExplorer: string,
   transactionExplorer: string,
-  defaultSettings: AbcCurrencySettings,
+  defaultSettings: any,
   denominations: Array<AbcDenomination>,
   symbolImage?: string,
   metaTokens: Array<AbcMetaToken>
@@ -274,7 +270,7 @@ export type AbcCurrencyPluginCallbacks = {
 export type AbcMakeEngineOptions = {
   walletLocalFolder: any,
   callbacks: AbcCurrencyPluginCallbacks,
-  optionalSettings?: AbcCurrencySettings
+  optionalSettings?: any
 }
 
 export interface AbcCurrencyPluginFactory {
