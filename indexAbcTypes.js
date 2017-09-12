@@ -201,9 +201,6 @@ export interface AbcMetaToken {
 }
 
 export type AbcCurrencySettings = {
-  addressExplorer: string,
-  transactionExplorer: string,
-  denomCurrencyCode: string,
   otherSettings: any
 }
 
@@ -211,6 +208,8 @@ export type AbcCurrencyInfo = {
   walletTypes: Array<string>,
   currencyName: string,
   currencyCode: string,
+  addressExplorer: string,
+  transactionExplorer: string,
   defaultSettings: AbcCurrencySettings,
   denominations: Array<AbcDenomination>,
   symbolImage?: string,
