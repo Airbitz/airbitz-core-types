@@ -201,7 +201,7 @@ export interface AbcMetaToken {
 }
 
 export type AbcCurrencySettings = {
-  otherSettings: any
+  otherSettings?: any
 }
 
 export type AbcCurrencyInfo = {
