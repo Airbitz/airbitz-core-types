@@ -76,6 +76,8 @@ export type AbcContextOptions = {
   plugins?: Array<AbcCurrencyPluginFactory | AbcExchangePluginFactory>
 }
 
+export type AbcMakeContextOpts = AbcContextOptions
+
 export interface AbcContext {}
 
 // account types ------------------------------------------------------
