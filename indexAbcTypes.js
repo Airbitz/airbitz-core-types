@@ -165,9 +165,18 @@ export interface AbcEdgeLoginOptions {
 // account types ------------------------------------------------------
 
 export type AbcWalletInfo = {
-  id?: string,
+  id: string,
   type: string,
   keys: any
+}
+
+export type AbcWalletInfoFull = {
+  archived: boolean,
+  deleted: boolean,
+  id: string,
+  keys: any,
+  sortIndex: number,
+  type: string
 }
 
 export type AbcWalletState = {
@@ -195,17 +204,24 @@ export type AbcAccountOptions = {
 }
 
 export interface AbcAccount {
-  // appId?:string,
-  // username?:string,
-  // loginKey?:string,
-  // exchangeCache?:any,
-  // loggedIn?:boolean,
-  // edgeLogin?:boolean,
+  // Basic login information:
+  +appId: string,
+  +username: string,
+  +loginKey: string,
+  +loggedIn: boolean,
+
+  // Exchange-rate info:
+  +exchangeCache: any,
+
+  // What login method was used?
+  +edgeLogin: boolean,
   keyLogin: boolean,
   pinLogin: boolean,
   passwordLogin: boolean,
   newAccount: boolean,
   recoveryLogin: boolean,
+
+  // Login management:
   isLoggedIn(): boolean,
   logout(): Promise<void>,
   passwordOk(password: string): Promise<boolean>,
@@ -216,14 +232,24 @@ export interface AbcAccount {
   changePIN(password: string): Promise<void>,
   recovery2Set(questions: string, answers: string): Promise<string>,
   setupRecovery2Questions(questions: string, answers: string): Promise<string>,
+
+  // Adding / deleting / modifying wallet list:
   changeWalletStates(walletStates: AbcWalletStates): Promise<void>,
   changeKeyStates(walletStates: AbcWalletStates): Promise<void>,
+  createWallet(type: string, keys: any): string,
+
+  // Master wallet list:
+  +allKeys: Array<AbcWalletInfoFull>,
   listWalletIds(): Array<string>,
   getWallet(id: string): AbcWalletInfo,
   getWalletInfo(id: string): AbcWalletInfo,
   getFirstWallet(type: string): AbcWalletInfo,
   getFirstWalletInfo(type: string): AbcWalletInfo,
-  createWallet(type: string, keys: any): string
+
+  // Core-managed wallets:
+  +activeWalletIds: Array<string>,
+  +archivedWalletIds: Array<string>,
+  +currencyWallets: { [walletId: string]: AbcCurrencyWallet }
 }
 
 // currency wallet types ----------------------------------------------
