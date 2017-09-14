@@ -47,17 +47,18 @@ export type AbcScryptFunction = (
   dklen: number
 ) => Promise<Uint8Array>
 
+// An IO object in its raw form. The core will add any missing stuff.
 export type AbcIo = {
   // Must-have items:
   fetch: FetchFunction,
   random: RandomFunction,
 
   // Optional items (the core will use JS versions):
-  console?: AbcConsole,
-  folder?: DiskletFolder,
-  localStorage?: Storage,
-  net?: NodeNet,
-  scrypt?: AbcScryptFunction
+  +console?: AbcConsole,
+  +folder?: DiskletFolder,
+  +localStorage?: Storage,
+  +net?: NodeNet,
+  +scrypt?: AbcScryptFunction
 }
 
 // context types ------------------------------------------------------
@@ -83,6 +84,7 @@ export interface AbcContext {
   io: AbcIo,
 
   // Local user management:
+  fixUsername(username: string): string,
   listUsernames(): Promise<Array<string>>,
   deleteLocalAccount(username: string): Promise<void>,
 
@@ -90,14 +92,14 @@ export interface AbcContext {
   usernameAvailable(username: string): Promise<boolean>,
   createAccount(
     username: string,
-    password: string | null,
-    pin: string | null,
+    password?: string,
+    pin?: string,
     opts?: AbcAccountOptions
   ): Promise<AbcAccount>,
 
   // Edge login:
   requestEdgeLogin(
-    opts: AbcAccountOptions | AbcEdgeLoginOptions
+    opts: AbcEdgeLoginOptions
   ): Promise<AbcEdgeLoginRequest>,
 
   // Fingerprint login:
@@ -128,7 +130,7 @@ export interface AbcContext {
   loginWithRecovery2(
     recovery2Key: string,
     username: string,
-    answers: string,
+    answers: Array<string>,
     opts?: AbcAccountOptions
   ): Promise<AbcAccount>,
   fetchRecovery2Questions(
@@ -155,7 +157,7 @@ export interface AbcEdgeLoginRequest {
   cancelRequest(): void
 }
 
-export interface AbcEdgeLoginOptions {
+export interface AbcEdgeLoginOptions extends AbcAccountOptions {
   displayImageUrl?: string,
   displayName?: string,
   onProcessLogin?: (username: string) => void,
@@ -230,8 +232,14 @@ export interface AbcAccount {
   changePassword(password: string): Promise<void>,
   pinSetup(password: string): Promise<void>,
   changePIN(password: string): Promise<void>,
-  recovery2Set(questions: string, answers: string): Promise<string>,
-  setupRecovery2Questions(questions: string, answers: string): Promise<string>,
+  recovery2Set(
+    questions: Array<string>,
+    answers: Array<string>
+  ): Promise<string>,
+  setupRecovery2Questions(
+    questions: Array<string>,
+    answers: Array<string>
+  ): Promise<string>,
 
   // Adding / deleting / modifying wallet list:
   changeWalletStates(walletStates: AbcWalletStates): Promise<void>,
