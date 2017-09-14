@@ -63,7 +63,7 @@ export type AbcIo = {
 // context types ------------------------------------------------------
 
 export interface AbcContextCallbacks {
-  onError?: (e: Error) => void
+  +onError?: (e: Error) => void
 }
 
 /* eslint-disable no-use-before-define */
@@ -78,7 +78,89 @@ export type AbcContextOptions = {
 
 export type AbcMakeContextOpts = AbcContextOptions
 
-export interface AbcContext {}
+export interface AbcContext {
+  appId: string,
+  io: AbcIo,
+
+  // Local user management:
+  listUsernames(): Promise<Array<string>>,
+  deleteLocalAccount(username: string): Promise<void>,
+
+  // Account creation:
+  usernameAvailable(username: string): Promise<boolean>,
+  createAccount(
+    username: string,
+    password: string | null,
+    pin: string | null,
+    opts?: AbcAccountOptions
+  ): Promise<AbcAccount>,
+
+  // Edge login:
+  requestEdgeLogin(
+    opts: AbcAccountOptions | AbcEdgeLoginOptions
+  ): Promise<AbcEdgeLoginRequest>,
+
+  // Fingerprint login:
+  loginWithKey(
+    username: string,
+    loginKey: string,
+    opts?: AbcAccountOptions
+  ): Promise<AbcAccount>,
+
+  // Password login:
+  checkPasswordRules(password: string): AbcPasswordRules,
+  loginWithPassword(
+    username: string,
+    pin: string,
+    opts?: AbcAccountOptions
+  ): Promise<AbcAccount>,
+
+  // PIN login:
+  pinLoginEnabled(username: string): Promise<boolean>,
+  loginWithPIN(
+    username: string,
+    pin: string,
+    opts?: AbcAccountOptions
+  ): Promise<AbcAccount>,
+
+  // Recovery2 login:
+  getRecovery2Key(username: string): Promise<string>,
+  loginWithRecovery2(
+    recovery2Key: string,
+    username: string,
+    answers: string,
+    opts?: AbcAccountOptions
+  ): Promise<AbcAccount>,
+  fetchRecovery2Questions(
+    recovery2Key: string,
+    username: string
+  ): Promise<Array<string>>,
+  listRecoveryQuestionChoices(): Promise<Array<string>>,
+
+  // Misc. stuff:
+  getCurrencyPlugins(): Promise<Array<AbcCurrencyPlugin>>
+}
+
+export interface AbcPasswordRules {
+  secondsToCrack: number,
+  tooShort: boolean,
+  noNumber: boolean,
+  noLowerCase: boolean,
+  noUpperCase: boolean,
+  passed: boolean
+}
+
+export interface AbcEdgeLoginRequest {
+  id: string,
+  cancelRequest(): void
+}
+
+export interface AbcEdgeLoginOptions {
+  displayImageUrl?: string,
+  displayName?: string,
+  onProcessLogin?: (username: string) => void,
+  onLogin(e?: Error, account?: AbcAccount): void
+}
 
 // account types ------------------------------------------------------
 
@@ -99,17 +181,17 @@ export type AbcWalletStates = {
 }
 
 export interface AbcAccountCallbacks {
-  onDataChanged(): void,
-  onKeyListChanged(): void,
-  onLoggedOut(): void,
-  onOTPRequired(): void,
-  onOTPSkew(): void,
-  onRemotePasswordChange(): void
+  +onDataChanged?: () => void,
+  +onKeyListChanged?: () => void,
+  +onLoggedOut?: () => void,
+  +onOTPRequired?: () => void,
+  +onOTPSkew?: () => void,
+  +onRemotePasswordChange?: () => void
 }
 
 export type AbcAccountOptions = {
-  otp: string,
-  callbacks: AbcAccountCallbacks
+  otp?: string,
+  callbacks?: AbcAccountCallbacks
 }
 
 export interface AbcAccount {
