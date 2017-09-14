@@ -332,7 +332,7 @@ export type AbcParsedUri = {
   returnUri?: string,
   bitidPaymentAddress?: string, // Experimental
   bitidKycProvider?: string, // Experimental
-  bitidKycRequest?: string, // Experimental
+  bitidKycRequest?: string // Experimental
 }
 
 export type AbcEncodeUri = {
@@ -422,86 +422,93 @@ export interface AbcExchangePluginFactory {
 // JSON API schemas ---------------------------------------------------
 
 export const AbcEthFeesSchema = {
-  'type': 'object',
-  'additionalProperties': {
-    'type': 'object',
-    'properties': {
-      'gasLimit': {
-        'type': 'object',
-        'properties': {
-          'regularTransaction': { 'type': 'string' },
-          'tokenTransaction': { 'type': 'string' }
+  type: 'object',
+  additionalProperties: {
+    type: 'object',
+    properties: {
+      gasLimit: {
+        type: 'object',
+        properties: {
+          regularTransaction: { type: 'string' },
+          tokenTransaction: { type: 'string' }
         },
-        'required': [ 'regularTransaction', 'tokenTransaction' ]
+        required: ['regularTransaction', 'tokenTransaction']
       },
-      'gasPrice': {
-        'type': 'object',
-        'properties': {
-          'lowFee': { 'type': 'string' },
-          'standardFeeLow': { 'type': 'string' },
-          'standardFeeHigh': { 'type': 'string' },
-          'standardFeeLowAmount': { 'type': 'string' },
-          'standardFeeHighAmount': { 'type': 'string' },
-          'highFee': { 'type': 'string' }
+      gasPrice: {
+        type: 'object',
+        properties: {
+          lowFee: { type: 'string' },
+          standardFeeLow: { type: 'string' },
+          standardFeeHigh: { type: 'string' },
+          standardFeeLowAmount: { type: 'string' },
+          standardFeeHighAmount: { type: 'string' },
+          highFee: { type: 'string' }
         },
-        'required': [ 'lowFee', 'standardFeeLow', 'standardFeeHigh', 'standardFeeLowAmount', 'standardFeeHighAmount', 'highFee' ]
+        required: [
+          'lowFee',
+          'standardFeeLow',
+          'standardFeeHigh',
+          'standardFeeLowAmount',
+          'standardFeeHighAmount',
+          'highFee'
+        ]
       }
     },
-    'required': [ 'gasLimit' ]
+    required: ['gasLimit']
   }
 }
 
 export const AbcCurrencyInfoSchema = {
-  'type': 'object',
-  'properties': {
-    'walletTypes': {
-      'type': 'array',
-      'items': {'type': 'string'}
+  type: 'object',
+  properties: {
+    walletTypes: {
+      type: 'array',
+      items: { type: 'string' }
     },
-    'currencyCode': { 'type': 'string' },
-    'currencyName': { 'type': 'string' },
-    'addressExplorer': { 'type': 'string' },
-    'transactionExplorer': { 'type': 'string' },
-    'denominations': {
-      'type': 'array',
-      'items': {
-        'type': 'object',
-        'properties': {
-          'name': { 'type': 'string' },
-          'multiplier': { 'type': 'string' },
-          'symbol': { 'type': 'string' }
+    currencyCode: { type: 'string' },
+    currencyName: { type: 'string' },
+    addressExplorer: { type: 'string' },
+    transactionExplorer: { type: 'string' },
+    denominations: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+          multiplier: { type: 'string' },
+          symbol: { type: 'string' }
         },
-        'required': [ 'name', 'multiplier' ]
+        required: ['name', 'multiplier']
       }
     },
-    'symbolImage': { 'type': 'string' },
-    'metaTokens': {
-      'type': 'array',
-      'items': {
-        'type': 'object',
-        'properties': {
-          'currencyCode': { 'type': 'string' },
-          'currencyName': { 'type': 'string' },
-          'denominations': {
-            'type': 'array',
-            'items': {
-              'type': 'object',
-              'properties': {
-                'name': { 'type': 'string' },
-                'multiplier': { 'type': 'string' },
-                'symbol': { 'type': 'string' }
+    symbolImage: { type: 'string' },
+    metaTokens: {
+      type: 'array',
+      items: {
+        type: 'object',
+        properties: {
+          currencyCode: { type: 'string' },
+          currencyName: { type: 'string' },
+          denominations: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                name: { type: 'string' },
+                multiplier: { type: 'string' },
+                symbol: { type: 'string' }
               },
-              'required': [ 'name', 'multiplier' ]
+              required: ['name', 'multiplier']
             }
           },
-          'contractAddress': { 'type': 'string' },
-          'symbolImage': { 'type': 'string' }
+          contractAddress: { type: 'string' },
+          symbolImage: { type: 'string' }
         },
-        'required': [ 'currencyCode', 'currencyName', 'denominations' ]
+        required: ['currencyCode', 'currencyName', 'denominations']
       }
     }
   },
-  'required': [
+  required: [
     'walletTypes',
     'currencyCode',
     'currencyName',
