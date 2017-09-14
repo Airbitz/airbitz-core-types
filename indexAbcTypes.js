@@ -213,11 +213,18 @@ export type AbcCurrencyInfo = {
 }
 
 export type AbcParsedUri = {
-  publicAddress: string,
+  publicAddress?: string,
   nativeAmount?: string,
   currencyCode?: string,
-  label?: string,
-  message?: string
+  metadata?: AbcMetadata,
+  bitIDURI?: string,
+  bitIDDomain?: string,
+  bitIDCallbackUri?: string,
+  paymentProtocolUri?: string,
+  returnUri?: string,
+  bitidPaymentAddress?: string, // Experimental
+  bitidKycProvider?: string, // Experimental
+  bitidKycRequest?: string, // Experimental
 }
 
 export type AbcEncodeUri = {
