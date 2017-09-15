@@ -63,18 +63,20 @@ export type AbcIo = {
 
 // context types ------------------------------------------------------
 
+/* eslint-disable no-use-before-define */
+export type AbcCorePlugin = AbcCurrencyPluginFactory | AbcExchangePluginFactory
+
 export interface AbcContextCallbacks {
   +onError?: (e: Error) => void
 }
 
-/* eslint-disable no-use-before-define */
 export type AbcContextOptions = {
   apiKey?: string,
   appId?: string,
   authServer?: string,
   callbacks?: AbcContextCallbacks,
   io?: AbcIo,
-  plugins?: Array<AbcCurrencyPluginFactory | AbcExchangePluginFactory>
+  plugins?: Array<AbcCorePlugin>
 }
 
 export type AbcMakeContextOpts = AbcContextOptions
@@ -98,9 +100,7 @@ export interface AbcContext {
   ): Promise<AbcAccount>,
 
   // Edge login:
-  requestEdgeLogin(
-    opts: AbcEdgeLoginOptions
-  ): Promise<AbcEdgeLoginRequest>,
+  requestEdgeLogin(opts: AbcEdgeLoginOptions): Promise<AbcEdgeLoginRequest>,
 
   // Fingerprint login:
   loginWithKey(
@@ -398,7 +398,7 @@ export type AbcMakeEngineOptions = {
 
 export interface AbcCurrencyPluginFactory {
   pluginType: 'currency',
-  static makePlugin(opts: { io: AbcIo }): Promise<AbcCurrencyPlugin>
+  makePlugin(opts: { io: AbcIo }): Promise<AbcCurrencyPlugin>
 }
 
 // exchange plugin types ----------------------------------------------
@@ -424,7 +424,7 @@ export interface AbcExchangePlugin {
 
 export interface AbcExchangePluginFactory {
   pluginType: 'exchange',
-  static makePlugin(opts: { io: AbcIo }): Promise<AbcExchangePlugin>
+  makePlugin(opts: { io: AbcIo }): Promise<AbcExchangePlugin>
 }
 
 // JSON API schemas ---------------------------------------------------
