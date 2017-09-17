@@ -262,7 +262,7 @@ export interface AbcAccount {
 
 // currency wallet types ----------------------------------------------
 
-export interface AbcCurrencyWallet {}
+export type AbcCurrencyWallet = any
 
 export type AbcMetadata = {
   name?: string,
