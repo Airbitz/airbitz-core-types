@@ -48,7 +48,7 @@ export type AbcScryptFunction = (
 ) => Promise<Uint8Array>
 
 // An IO object in its raw form. The core will add any missing stuff.
-export type AbcIo = {
+export type AbcRawIo = {
   // Must-have items:
   fetch: FetchFunction,
   random: RandomFunction,
@@ -59,6 +59,17 @@ export type AbcIo = {
   +localStorage?: Storage,
   +net?: NodeNet,
   +scrypt?: AbcScryptFunction
+}
+
+// None of the io resources are optional at this point,
+// so this is a separate type:
+export type AbcIo = {
+  console: AbcConsole,
+  fetch: FetchFunction,
+  folder: DiskletFolder,
+  random: RandomFunction,
+  scrypt: AbcScryptFunction,
+  +net?: NodeNet
 }
 
 // context types ------------------------------------------------------
@@ -75,7 +86,7 @@ export type AbcContextOptions = {
   appId?: string,
   authServer?: string,
   callbacks?: AbcContextCallbacks,
-  io?: AbcIo,
+  io?: AbcRawIo,
   plugins?: Array<AbcCorePlugin>
 }
 
