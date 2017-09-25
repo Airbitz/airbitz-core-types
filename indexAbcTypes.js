@@ -47,18 +47,46 @@ export type AbcScryptFunction = (
   dklen: number
 ) => Promise<Uint8Array>
 
-// An IO object in its raw form. The core will add any missing stuff.
-export type AbcIo = {
-  // Must-have items:
-  fetch: FetchFunction,
-  random: RandomFunction,
+/**
+ * Access to plaform-specific resources, with many optional fields.
+ * The core will emulate/adapt whatever is missing.
+ */
+export type AbcRawIo = {
+  // Crypto:
+  +random: RandomFunction, // Non-optional & security-critical
+  +scrypt?: AbcScryptFunction,
 
-  // Optional items (the core will use JS versions):
+  // Local io:
   +console?: AbcConsole,
   +folder?: DiskletFolder,
   +localStorage?: Storage,
-  +net?: NodeNet,
-  +scrypt?: AbcScryptFunction
+
+  // Networking:
+  +fetch: FetchFunction,
+  +Socket?: net$Socket,
+  +TLSSocket?: tls$TLSSocket,
+  +WebSocket?: WebSocket
+}
+
+/**
+ * Access to plaform-specific resources.
+ * The core never talks to the outside world on its own,
+ * but always goes through this object.
+ */
+export type AbcIo = {
+  // Crypto:
+  +random: RandomFunction,
+  +scrypt: AbcScryptFunction,
+
+  // Local io:
+  +console: AbcConsole,
+  +folder: DiskletFolder,
+
+  // Networking:
+  +fetch: FetchFunction,
+  +Socket?: net$Socket, // Still optional (no browser version)
+  +TLSSocket?: tls$TLSSocket, // Still optional (no browser version)
+  +WebSocket?: WebSocket // TODO: Make this non-optional
 }
 
 // context types ------------------------------------------------------
@@ -80,7 +108,7 @@ export type AbcContextOptions = {
   appId?: string,
   authServer?: string,
   callbacks?: AbcContextCallbacks,
-  io?: AbcIo,
+  io?: AbcRawIo,
   plugins?: Array<AbcCorePlugin>,
   shapeshiftKey?: string
 }
