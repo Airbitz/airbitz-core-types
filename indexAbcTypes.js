@@ -357,7 +357,7 @@ export interface AbcCurrencyEngine {
   startEngine(): Promise<void>,
   killEngine(): void,
   getBlockHeight(): number,
-  enableTokens(tokens: Array<string>): void,
+  enableTokens(tokens: Array<string>): Promise<void>,
   getTokenStatus(token: string): boolean,
   getBalance(options: any): string,
   getNumTransactions(options: any): number,
