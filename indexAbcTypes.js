@@ -350,19 +350,24 @@ export type AbcEncodeUri = {
   message?: string
 }
 
+export type AbcFreshAddress = {
+  publicAddress: string,
+  segwitAddress?: string
+}
+
 // currency plugin types ----------------------------------------------
 
 export interface AbcCurrencyEngine {
   updateSettings(settings: any): void,
   startEngine(): Promise<void>,
-  killEngine(): void,
+  killEngine(): Promise<void>,
   getBlockHeight(): number,
   enableTokens(tokens: Array<string>): Promise<void>,
   getTokenStatus(token: string): boolean,
   getBalance(options: any): string,
   getNumTransactions(options: any): number,
   getTransactions(options: any): Promise<Array<AbcTransaction>>,
-  getFreshAddress(options: any): string,
+  getFreshAddress(options: any): AbcFreshAddress,
   addGapLimitAddresses(addresses: Array<string>, options: any): void,
   isAddressUsed(address: string, options: any): boolean,
   makeSpend(abcSpendInfo: AbcSpendInfo): Promise<AbcTransaction>,
@@ -387,7 +392,8 @@ export type AbcCurrencyPluginCallbacks = {
   onBlockHeightChanged(blockHeight: number): void,
   onTransactionsChanged(abcTransactions: Array<AbcTransaction>): void,
   onBalanceChanged(currencyCode: string, nativeBalance: string): void,
-  onAddressesChecked(progressRatio: number): void
+  onAddressesChecked(progressRatio: number): void,
+  onTxidsChanged?: (txids: Array<string>) => void
 }
 
 export type AbcMakeEngineOptions = {
