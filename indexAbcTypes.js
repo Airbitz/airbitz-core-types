@@ -355,6 +355,11 @@ export type AbcFreshAddress = {
   segwitAddress?: string
 }
 
+export type AbcReceiveAddress = AbcFreshAddress & {
+  metadata: AbcMetadata,
+  nativeAmount: string
+}
+
 // currency plugin types ----------------------------------------------
 
 export interface AbcCurrencyEngine {
