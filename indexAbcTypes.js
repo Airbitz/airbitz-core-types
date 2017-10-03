@@ -251,8 +251,8 @@ export interface AbcAccount {
   listWalletIds(): Array<string>,
   getWallet(id: string): AbcWalletInfo,
   getWalletInfo(id: string): AbcWalletInfo,
-  getFirstWallet(type: string): AbcWalletInfo,
-  getFirstWalletInfo(type: string): AbcWalletInfo,
+  getFirstWallet(type: string): ?AbcWalletInfo,
+  getFirstWalletInfo(type: string): ?AbcWalletInfo,
 
   // Core-managed wallets:
   +activeWalletIds: Array<string>,
