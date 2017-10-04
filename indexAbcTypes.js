@@ -299,6 +299,7 @@ export type AbcTransaction = {
   networkFee: string,
   ourReceiveAddresses: Array<string>,
   signedTx: string,
+  metadata?: AbcMetadata,
   otherParams: any
 }
 
