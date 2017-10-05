@@ -387,7 +387,7 @@ export type AbcCurrencyPlugin = {
   currencyInfo: AbcCurrencyInfo,
   createPrivateKey(walletType: string): any,
   derivePublicKey(walletInfo: AbcWalletInfo): any,
-  makeEngine(keyInfo: any, opts: any): AbcCurrencyEngine,
+  makeEngine(keyInfo: any, opts: any): Promise<AbcCurrencyEngine>,
   parseUri(uri: string): AbcParsedUri,
   encodeUri(obj: AbcEncodeUri): string
 }
