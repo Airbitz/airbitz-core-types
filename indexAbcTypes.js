@@ -201,12 +201,22 @@ export interface AbcAccountCallbacks {
 
   // Currency wallet callbacks:
   +onAddressesChecked?: (walletId: string, progressRatio: number) => void,
-  +onBalanceChanged?: (walletId: string, currencyCode: string, nativeBalance: string) => void,
+  +onBalanceChanged?: (
+    walletId: string,
+    currencyCode: string,
+    nativeBalance: string
+  ) => void,
   +onBlockHeightChanged?: (walletId: string, blockHeight: number) => void,
-  +onNewTransactions?: (walletId: string, abcTransactions: Array<AbcTransaction>) => void,
-  +onTransactionsChanged?: (walletId: string, abcTransactions: Array<AbcTransaction>) => void,
+  +onNewTransactions?: (
+    walletId: string,
+    abcTransactions: Array<AbcTransaction>
+  ) => void,
+  +onTransactionsChanged?: (
+    walletId: string,
+    abcTransactions: Array<AbcTransaction>
+  ) => void,
   +onWalletDataChanged?: (walletId: string) => void,
-  +onWalletNameChanged?: (walletId: string, name: string) => void
+  +onWalletNameChanged?: (walletId: string, name: string | null) => void
 }
 
 export type AbcAccountOptions = {
