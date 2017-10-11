@@ -197,7 +197,16 @@ export interface AbcAccountCallbacks {
   +onLoggedOut?: () => void,
   +onOTPRequired?: () => void,
   +onOTPSkew?: () => void,
-  +onRemotePasswordChange?: () => void
+  +onRemotePasswordChange?: () => void,
+
+  // Currency wallet callbacks:
+  +onAddressesChecked?: (walletId: string, progressRatio: number) => void,
+  +onBalanceChanged?: (walletId: string, currencyCode: string, nativeBalance: string) => void,
+  +onBlockHeightChanged?: (walletId: string, blockHeight: number) => void,
+  +onNewTransactions?: (walletId: string, abcTransactions: Array<AbcTransaction>) => void,
+  +onTransactionsChanged?: (walletId: string, abcTransactions: Array<AbcTransaction>) => void,
+  +onWalletDataChanged?: (walletId: string) => void,
+  +onWalletNameChanged?: (walletId: string, name: string) => void
 }
 
 export type AbcAccountOptions = {
