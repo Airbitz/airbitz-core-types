@@ -269,7 +269,7 @@ export interface AbcAccount {
   // Adding / deleting / modifying wallet list:
   changeWalletStates(walletStates: AbcWalletStates): Promise<void>,
   changeKeyStates(walletStates: AbcWalletStates): Promise<void>,
-  createWallet(type: string, keys: any): string,
+  createWallet(type: string, keys: any): Promise<string>,
   createCurrencyWallet(
     type: string,
     opts?: AbcCreateCurrencyWalletOptions
