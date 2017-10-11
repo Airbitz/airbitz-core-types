@@ -224,6 +224,12 @@ export type AbcAccountOptions = {
   callbacks?: AbcAccountCallbacks
 }
 
+export interface AbcCreateCurrencyWalletOptions {
+  name?: string,
+  fiatCurrencyCode?: string,
+  keys?: {}
+}
+
 export interface AbcAccount {
   // Basic login information:
   +appId: string,
@@ -264,6 +270,10 @@ export interface AbcAccount {
   changeWalletStates(walletStates: AbcWalletStates): Promise<void>,
   changeKeyStates(walletStates: AbcWalletStates): Promise<void>,
   createWallet(type: string, keys: any): string,
+  createCurrencyWallet(
+    type: string,
+    opts?: AbcCreateCurrencyWalletOptions
+  ): Promise<AbcCurrencyWallet>,
 
   // Master wallet list:
   +allKeys: Array<AbcWalletInfoFull>,
