@@ -266,6 +266,9 @@ export interface AbcAccount {
     answers: Array<string>
   ): Promise<string>,
 
+  // Edge login approval:
+  fetchLobby(lobbyId: string): Promise<AbcLobby>,
+
   // Adding / deleting / modifying wallet list:
   changeWalletStates(walletStates: AbcWalletStates): Promise<void>,
   changeKeyStates(walletStates: AbcWalletStates): Promise<void>,
@@ -287,6 +290,21 @@ export interface AbcAccount {
   +activeWalletIds: Array<string>,
   +archivedWalletIds: Array<string>,
   +currencyWallets: { [walletId: string]: AbcCurrencyWallet }
+}
+
+// edge login types ---------------------------------------------------
+
+export interface AbcLobby {
+  loginRequest?: AbcLoginRequest
+  // walletRequest?: AbcWalletRequest
+}
+
+export interface AbcLoginRequest {
+  appId: string,
+  approve(): Promise<void>,
+
+  displayName: string,
+  displayImageUrl?: string
 }
 
 // currency wallet types ----------------------------------------------
