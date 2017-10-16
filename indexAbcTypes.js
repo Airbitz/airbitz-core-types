@@ -76,7 +76,8 @@ export type AbcContextOptions = {
   authServer?: string,
   callbacks?: AbcContextCallbacks,
   io?: AbcIo,
-  plugins?: Array<AbcCorePlugin>
+  plugins?: Array<AbcCorePlugin>,
+  shapeshiftKey?: string
 }
 
 export type AbcMakeContextOpts = AbcContextOptions
@@ -140,7 +141,13 @@ export interface AbcContext {
   listRecoveryQuestionChoices(): Promise<Array<string>>,
 
   // Misc. stuff:
-  getCurrencyPlugins(): Promise<Array<AbcCurrencyPlugin>>
+  getCurrencyPlugins(): Promise<Array<AbcCurrencyPlugin>>,
+
+  // Shapeshift:
+  getExchangeSwapRate(
+    fromCurrencyCode: string,
+    toCurrencyCode: string
+  ): Promise<number>
 }
 
 export interface AbcPasswordRules {
@@ -332,6 +339,7 @@ export type AbcSpendInfo = {
   currencyCode?: string,
   noUnconfirmed?: boolean,
   spendTargets: Array<AbcSpendTarget>,
+  nativeAmount?: string,
   networkFeeOption?: string,
   customNetworkFee?: string,
   metadata?: AbcMetadata
