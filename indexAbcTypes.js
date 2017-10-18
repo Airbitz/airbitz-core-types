@@ -386,6 +386,7 @@ export type AbcCurrencyInfo = {
 
 export type AbcParsedUri = {
   publicAddress?: string,
+  segwitAddress?: string,
   nativeAmount?: string,
   currencyCode?: string,
   metadata?: AbcMetadata,
@@ -401,6 +402,7 @@ export type AbcParsedUri = {
 
 export type AbcEncodeUri = {
   publicAddress: string,
+  segwitAddress?: string,
   nativeAmount?: string,
   label?: string,
   message?: string
