@@ -180,6 +180,7 @@ export type AbcWalletInfo = {
 }
 
 export type AbcWalletInfoFull = {
+  appIds: Array<string>,
   archived: boolean,
   deleted: boolean,
   id: string,
