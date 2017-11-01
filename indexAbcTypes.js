@@ -356,7 +356,8 @@ export type AbcTransaction = {
   ourReceiveAddresses: Array<string>,
   signedTx: string,
   metadata?: AbcMetadata,
-  otherParams: any
+  otherParams: any,
+  wallet?: AbcCurrencyWallet
 }
 
 export interface AbcDenomination {
