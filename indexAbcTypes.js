@@ -6,19 +6,19 @@
 // io types -----------------------------------------------------------
 
 export interface DiskletFile {
-  delete(): Promise<void>,
-  getData(): Promise<Uint8Array>,
-  getText(): Promise<string>,
-  setData(data: Array<number> | Uint8Array): Promise<void>,
-  setText(text: string): Promise<void>
+  delete(): Promise<void>;
+  getData(): Promise<Uint8Array>;
+  getText(): Promise<string>;
+  setData(data: Array<number> | Uint8Array): Promise<void>;
+  setText(text: string): Promise<void>;
 }
 
 export interface DiskletFolder {
-  delete(): Promise<void>,
-  file(name: string): DiskletFile,
-  folder(name: string): DiskletFolder,
-  listFiles(): Promise<Array<string>>,
-  listFolders(): Promise<Array<string>>
+  delete(): Promise<void>;
+  file(name: string): DiskletFile;
+  folder(name: string): DiskletFolder;
+  listFiles(): Promise<Array<string>>;
+  listFolders(): Promise<Array<string>>;
 }
 
 // Browser fetch function:
@@ -32,9 +32,9 @@ export interface NodeNet {}
 
 // The only subset of `Console` that Airbitz uses:
 export interface AbcConsole {
-  error(...data: Array<any>): void,
-  info(...data: Array<any>): void,
-  warn(...data: Array<any>): void
+  error(...data: Array<any>): void;
+  info(...data: Array<any>): void;
+  warn(...data: Array<any>): void;
 }
 
 // The scrypt function Airbitz expects:
@@ -67,7 +67,7 @@ export type AbcIo = {
 export type AbcCorePlugin = AbcCurrencyPluginFactory | AbcExchangePluginFactory
 
 export interface AbcContextCallbacks {
-  +onError?: (e: Error) => void
+  +onError?: (e: Error) => void;
 }
 
 export type AbcContextOptions = {
@@ -83,92 +83,92 @@ export type AbcContextOptions = {
 export type AbcMakeContextOpts = AbcContextOptions
 
 export interface AbcContext {
-  appId: string,
-  io: AbcIo,
+  appId: string;
+  io: AbcIo;
 
   // Local user management:
-  fixUsername(username: string): string,
-  listUsernames(): Promise<Array<string>>,
-  deleteLocalAccount(username: string): Promise<void>,
+  fixUsername(username: string): string;
+  listUsernames(): Promise<Array<string>>;
+  deleteLocalAccount(username: string): Promise<void>;
 
   // Account creation:
-  usernameAvailable(username: string): Promise<boolean>,
+  usernameAvailable(username: string): Promise<boolean>;
   createAccount(
     username: string,
     password?: string,
     pin?: string,
     opts?: AbcAccountOptions
-  ): Promise<AbcAccount>,
+  ): Promise<AbcAccount>;
 
   // Edge login:
-  requestEdgeLogin(opts: AbcEdgeLoginOptions): Promise<AbcEdgeLoginRequest>,
+  requestEdgeLogin(opts: AbcEdgeLoginOptions): Promise<AbcEdgeLoginRequest>;
 
   // Fingerprint login:
   loginWithKey(
     username: string,
     loginKey: string,
     opts?: AbcAccountOptions
-  ): Promise<AbcAccount>,
+  ): Promise<AbcAccount>;
 
   // Password login:
-  checkPasswordRules(password: string): AbcPasswordRules,
+  checkPasswordRules(password: string): AbcPasswordRules;
   loginWithPassword(
     username: string,
     pin: string,
     opts?: AbcAccountOptions
-  ): Promise<AbcAccount>,
+  ): Promise<AbcAccount>;
 
   // PIN login:
-  pinLoginEnabled(username: string): Promise<boolean>,
+  pinLoginEnabled(username: string): Promise<boolean>;
   loginWithPIN(
     username: string,
     pin: string,
     opts?: AbcAccountOptions
-  ): Promise<AbcAccount>,
+  ): Promise<AbcAccount>;
 
   // Recovery2 login:
-  getRecovery2Key(username: string): Promise<string>,
+  getRecovery2Key(username: string): Promise<string>;
   loginWithRecovery2(
     recovery2Key: string,
     username: string,
     answers: Array<string>,
     opts?: AbcAccountOptions
-  ): Promise<AbcAccount>,
+  ): Promise<AbcAccount>;
   fetchRecovery2Questions(
     recovery2Key: string,
     username: string
-  ): Promise<Array<string>>,
-  listRecoveryQuestionChoices(): Promise<Array<string>>,
+  ): Promise<Array<string>>;
+  listRecoveryQuestionChoices(): Promise<Array<string>>;
 
   // Misc. stuff:
-  getCurrencyPlugins(): Promise<Array<AbcCurrencyPlugin>>,
+  getCurrencyPlugins(): Promise<Array<AbcCurrencyPlugin>>;
 
   // Shapeshift:
   getExchangeSwapRate(
     fromCurrencyCode: string,
     toCurrencyCode: string
-  ): Promise<number>
+  ): Promise<number>;
 }
 
 export interface AbcPasswordRules {
-  secondsToCrack: number,
-  tooShort: boolean,
-  noNumber: boolean,
-  noLowerCase: boolean,
-  noUpperCase: boolean,
-  passed: boolean
+  secondsToCrack: number;
+  tooShort: boolean;
+  noNumber: boolean;
+  noLowerCase: boolean;
+  noUpperCase: boolean;
+  passed: boolean;
 }
 
 export interface AbcEdgeLoginRequest {
-  id: string,
-  cancelRequest(): void
+  id: string;
+  cancelRequest(): void;
 }
 
 export interface AbcEdgeLoginOptions extends AbcAccountOptions {
-  displayImageUrl?: string,
-  displayName?: string,
-  onProcessLogin?: (username: string) => void,
-  onLogin(e?: Error, account?: AbcAccount): void
+  displayImageUrl?: string;
+  displayName?: string;
+  onProcessLogin?: (username: string) => void;
+  onLogin(e?: Error, account?: AbcAccount): void;
 }
 
 // account types ------------------------------------------------------
@@ -200,31 +200,31 @@ export type AbcWalletStates = {
 }
 
 export interface AbcAccountCallbacks {
-  +onDataChanged?: () => void,
-  +onKeyListChanged?: () => void,
-  +onLoggedOut?: () => void,
-  +onOTPRequired?: () => void,
-  +onOTPSkew?: () => void,
-  +onRemotePasswordChange?: () => void,
+  +onDataChanged?: () => void;
+  +onKeyListChanged?: () => void;
+  +onLoggedOut?: () => void;
+  +onOTPRequired?: () => void;
+  +onOTPSkew?: () => void;
+  +onRemotePasswordChange?: () => void;
 
   // Currency wallet callbacks:
-  +onAddressesChecked?: (walletId: string, progressRatio: number) => void,
+  +onAddressesChecked?: (walletId: string, progressRatio: number) => void;
   +onBalanceChanged?: (
     walletId: string,
     currencyCode: string,
     nativeBalance: string
-  ) => void,
-  +onBlockHeightChanged?: (walletId: string, blockHeight: number) => void,
+  ) => void;
+  +onBlockHeightChanged?: (walletId: string, blockHeight: number) => void;
   +onNewTransactions?: (
     walletId: string,
     abcTransactions: Array<AbcTransaction>
-  ) => void,
+  ) => void;
   +onTransactionsChanged?: (
     walletId: string,
     abcTransactions: Array<AbcTransaction>
-  ) => void,
-  +onWalletDataChanged?: (walletId: string) => void,
-  +onWalletNameChanged?: (walletId: string, name: string | null) => void
+  ) => void;
+  +onWalletDataChanged?: (walletId: string) => void;
+  +onWalletNameChanged?: (walletId: string, name: string | null) => void;
 }
 
 export type AbcAccountOptions = {
@@ -233,86 +233,86 @@ export type AbcAccountOptions = {
 }
 
 export interface AbcCreateCurrencyWalletOptions {
-  name?: string,
-  fiatCurrencyCode?: string,
-  keys?: {}
+  name?: string;
+  fiatCurrencyCode?: string;
+  keys?: {};
 }
 
 export interface AbcAccount {
   // Basic login information:
-  +appId: string,
-  +username: string,
-  +loginKey: string,
-  +loggedIn: boolean,
+  +appId: string;
+  +username: string;
+  +loginKey: string;
+  +loggedIn: boolean;
 
   // Exchange-rate info:
-  +exchangeCache: any,
+  +exchangeCache: any;
 
   // What login method was used?
-  +edgeLogin: boolean,
-  keyLogin: boolean,
-  pinLogin: boolean,
-  passwordLogin: boolean,
-  newAccount: boolean,
-  recoveryLogin: boolean,
+  +edgeLogin: boolean;
+  keyLogin: boolean;
+  pinLogin: boolean;
+  passwordLogin: boolean;
+  newAccount: boolean;
+  recoveryLogin: boolean;
 
   // Login management:
-  isLoggedIn(): boolean,
-  logout(): Promise<void>,
-  passwordOk(password: string): Promise<boolean>,
-  checkPassword(password: string): Promise<boolean>,
-  passwordSetup(password: string): Promise<void>,
-  changePassword(password: string): Promise<void>,
-  pinSetup(password: string): Promise<void>,
-  changePIN(password: string): Promise<void>,
+  isLoggedIn(): boolean;
+  logout(): Promise<void>;
+  passwordOk(password: string): Promise<boolean>;
+  checkPassword(password: string): Promise<boolean>;
+  passwordSetup(password: string): Promise<void>;
+  changePassword(password: string): Promise<void>;
+  pinSetup(password: string): Promise<void>;
+  changePIN(password: string): Promise<void>;
   recovery2Set(
     questions: Array<string>,
     answers: Array<string>
-  ): Promise<string>,
+  ): Promise<string>;
   setupRecovery2Questions(
     questions: Array<string>,
     answers: Array<string>
-  ): Promise<string>,
+  ): Promise<string>;
 
   // Edge login approval:
-  fetchLobby(lobbyId: string): Promise<AbcLobby>,
+  fetchLobby(lobbyId: string): Promise<AbcLobby>;
 
   // Adding / deleting / modifying wallet list:
-  changeWalletStates(walletStates: AbcWalletStates): Promise<void>,
-  changeKeyStates(walletStates: AbcWalletStates): Promise<void>,
-  createWallet(type: string, keys: any): Promise<string>,
+  changeWalletStates(walletStates: AbcWalletStates): Promise<void>;
+  changeKeyStates(walletStates: AbcWalletStates): Promise<void>;
+  createWallet(type: string, keys: any): Promise<string>;
   createCurrencyWallet(
     type: string,
     opts?: AbcCreateCurrencyWalletOptions
-  ): Promise<AbcCurrencyWallet>,
+  ): Promise<AbcCurrencyWallet>;
 
   // Master wallet list:
-  +allKeys: Array<AbcWalletInfoFull>,
-  listWalletIds(): Array<string>,
-  getWallet(id: string): AbcWalletInfo,
-  getWalletInfo(id: string): AbcWalletInfo,
-  getFirstWallet(type: string): ?AbcWalletInfo,
-  getFirstWalletInfo(type: string): ?AbcWalletInfo,
+  +allKeys: Array<AbcWalletInfoFull>;
+  listWalletIds(): Array<string>;
+  getWallet(id: string): AbcWalletInfo;
+  getWalletInfo(id: string): AbcWalletInfo;
+  getFirstWallet(type: string): ?AbcWalletInfo;
+  getFirstWalletInfo(type: string): ?AbcWalletInfo;
 
   // Core-managed wallets:
-  +activeWalletIds: Array<string>,
-  +archivedWalletIds: Array<string>,
-  +currencyWallets: { [walletId: string]: AbcCurrencyWallet }
+  +activeWalletIds: Array<string>;
+  +archivedWalletIds: Array<string>;
+  +currencyWallets: { [walletId: string]: AbcCurrencyWallet };
 }
 
 // edge login types ---------------------------------------------------
 
 export interface AbcLobby {
-  loginRequest?: AbcLoginRequest
+  loginRequest?: AbcLoginRequest;
   // walletRequest?: AbcWalletRequest
 }
 
 export interface AbcLoginRequest {
-  appId: string,
-  approve(): Promise<void>,
+  appId: string;
+  approve(): Promise<void>;
 
-  displayName: string,
-  displayImageUrl?: string
+  displayName: string;
+  displayImageUrl?: string;
 }
 
 // currency wallet types ----------------------------------------------
@@ -361,17 +361,17 @@ export type AbcTransaction = {
 }
 
 export interface AbcDenomination {
-  name: string,
-  multiplier: string,
-  symbol?: string
+  name: string;
+  multiplier: string;
+  symbol?: string;
 }
 
 export interface AbcMetaToken {
-  currencyCode: string,
-  currencyName: string,
-  denominations: Array<AbcDenomination>,
-  contractAddress?: string,
-  symbolImage?: string
+  currencyCode: string;
+  currencyName: string;
+  denominations: Array<AbcDenomination>;
+  contractAddress?: string;
+  symbolImage?: string;
 }
 
 export type AbcCurrencyInfo = {
@@ -423,22 +423,22 @@ export type AbcReceiveAddress = AbcFreshAddress & {
 // currency plugin types ----------------------------------------------
 
 export interface AbcCurrencyEngine {
-  updateSettings(settings: any): void,
-  startEngine(): Promise<void>,
-  killEngine(): Promise<void>,
-  getBlockHeight(): number,
-  enableTokens(tokens: Array<string>): Promise<void>,
-  getTokenStatus(token: string): boolean,
-  getBalance(options: any): string,
-  getNumTransactions(options: any): number,
-  getTransactions(options: any): Promise<Array<AbcTransaction>>,
-  getFreshAddress(options: any): AbcFreshAddress,
-  addGapLimitAddresses(addresses: Array<string>, options: any): void,
-  isAddressUsed(address: string, options: any): boolean,
-  makeSpend(abcSpendInfo: AbcSpendInfo): Promise<AbcTransaction>,
-  signTx(abcTransaction: AbcTransaction): Promise<AbcTransaction>,
-  broadcastTx(abcTransaction: AbcTransaction): Promise<AbcTransaction>,
-  saveTx(abcTransaction: AbcTransaction): Promise<void>
+  updateSettings(settings: any): void;
+  startEngine(): Promise<void>;
+  killEngine(): Promise<void>;
+  getBlockHeight(): number;
+  enableTokens(tokens: Array<string>): Promise<void>;
+  getTokenStatus(token: string): boolean;
+  getBalance(options: any): string;
+  getNumTransactions(options: any): number;
+  getTransactions(options: any): Promise<Array<AbcTransaction>>;
+  getFreshAddress(options: any): AbcFreshAddress;
+  addGapLimitAddresses(addresses: Array<string>, options: any): void;
+  isAddressUsed(address: string, options: any): boolean;
+  makeSpend(abcSpendInfo: AbcSpendInfo): Promise<AbcTransaction>;
+  signTx(abcTransaction: AbcTransaction): Promise<AbcTransaction>;
+  broadcastTx(abcTransaction: AbcTransaction): Promise<AbcTransaction>;
+  saveTx(abcTransaction: AbcTransaction): Promise<void>;
 }
 
 export type AbcCurrencyPlugin = {
@@ -468,34 +468,34 @@ export type AbcMakeEngineOptions = {
 }
 
 export interface AbcCurrencyPluginFactory {
-  pluginType: 'currency',
-  makePlugin(opts: { io: AbcIo }): Promise<AbcCurrencyPlugin>
+  pluginType: 'currency';
+  makePlugin(opts: { io: AbcIo }): Promise<AbcCurrencyPlugin>;
 }
 
 // exchange plugin types ----------------------------------------------
 
 export interface AbcExchangePairHint {
-  fromCurrency: string,
-  toCurrency: string
+  fromCurrency: string;
+  toCurrency: string;
 }
 
 export interface AbcExchangePair {
-  fromCurrency: string,
-  toCurrency: string,
-  rate: number
+  fromCurrency: string;
+  toCurrency: string;
+  rate: number;
 }
 
 export interface AbcExchangePlugin {
-  exchangeInfo: { exchangeName: string },
+  exchangeInfo: { exchangeName: string };
 
   fetchExchangeRates(
     pairHints: Array<AbcExchangePairHint>
-  ): Array<AbcExchangePair>
+  ): Array<AbcExchangePair>;
 }
 
 export interface AbcExchangePluginFactory {
-  pluginType: 'exchange',
-  makePlugin(opts: { io: AbcIo }): Promise<AbcExchangePlugin>
+  pluginType: 'exchange';
+  makePlugin(opts: { io: AbcIo }): Promise<AbcExchangePlugin>;
 }
 
 // JSON API schemas ---------------------------------------------------
