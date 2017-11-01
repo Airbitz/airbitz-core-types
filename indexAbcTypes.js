@@ -76,7 +76,8 @@ export type AbcContextOptions = {
   authServer?: string,
   callbacks?: AbcContextCallbacks,
   io?: AbcIo,
-  plugins?: Array<AbcCorePlugin>
+  plugins?: Array<AbcCorePlugin>,
+  shapeshiftKey?: string
 }
 
 export type AbcMakeContextOpts = AbcContextOptions
@@ -140,7 +141,13 @@ export interface AbcContext {
   listRecoveryQuestionChoices(): Promise<Array<string>>,
 
   // Misc. stuff:
-  getCurrencyPlugins(): Promise<Array<AbcCurrencyPlugin>>
+  getCurrencyPlugins(): Promise<Array<AbcCurrencyPlugin>>,
+
+  // Shapeshift:
+  getExchangeSwapRate(
+    fromCurrencyCode: string,
+    toCurrencyCode: string
+  ): Promise<number>
 }
 
 export interface AbcPasswordRules {
@@ -173,6 +180,7 @@ export type AbcWalletInfo = {
 }
 
 export type AbcWalletInfoFull = {
+  appIds: Array<string>,
   archived: boolean,
   deleted: boolean,
   id: string,
@@ -197,12 +205,37 @@ export interface AbcAccountCallbacks {
   +onLoggedOut?: () => void,
   +onOTPRequired?: () => void,
   +onOTPSkew?: () => void,
-  +onRemotePasswordChange?: () => void
+  +onRemotePasswordChange?: () => void,
+
+  // Currency wallet callbacks:
+  +onAddressesChecked?: (walletId: string, progressRatio: number) => void,
+  +onBalanceChanged?: (
+    walletId: string,
+    currencyCode: string,
+    nativeBalance: string
+  ) => void,
+  +onBlockHeightChanged?: (walletId: string, blockHeight: number) => void,
+  +onNewTransactions?: (
+    walletId: string,
+    abcTransactions: Array<AbcTransaction>
+  ) => void,
+  +onTransactionsChanged?: (
+    walletId: string,
+    abcTransactions: Array<AbcTransaction>
+  ) => void,
+  +onWalletDataChanged?: (walletId: string) => void,
+  +onWalletNameChanged?: (walletId: string, name: string | null) => void
 }
 
 export type AbcAccountOptions = {
   otp?: string,
   callbacks?: AbcAccountCallbacks
+}
+
+export interface AbcCreateCurrencyWalletOptions {
+  name?: string,
+  fiatCurrencyCode?: string,
+  keys?: {}
 }
 
 export interface AbcAccount {
@@ -241,10 +274,17 @@ export interface AbcAccount {
     answers: Array<string>
   ): Promise<string>,
 
+  // Edge login approval:
+  fetchLobby(lobbyId: string): Promise<AbcLobby>,
+
   // Adding / deleting / modifying wallet list:
   changeWalletStates(walletStates: AbcWalletStates): Promise<void>,
   changeKeyStates(walletStates: AbcWalletStates): Promise<void>,
-  createWallet(type: string, keys: any): string,
+  createWallet(type: string, keys: any): Promise<string>,
+  createCurrencyWallet(
+    type: string,
+    opts?: AbcCreateCurrencyWalletOptions
+  ): Promise<AbcCurrencyWallet>,
 
   // Master wallet list:
   +allKeys: Array<AbcWalletInfoFull>,
@@ -258,6 +298,21 @@ export interface AbcAccount {
   +activeWalletIds: Array<string>,
   +archivedWalletIds: Array<string>,
   +currencyWallets: { [walletId: string]: AbcCurrencyWallet }
+}
+
+// edge login types ---------------------------------------------------
+
+export interface AbcLobby {
+  loginRequest?: AbcLoginRequest
+  // walletRequest?: AbcWalletRequest
+}
+
+export interface AbcLoginRequest {
+  appId: string,
+  approve(): Promise<void>,
+
+  displayName: string,
+  displayImageUrl?: string
 }
 
 // currency wallet types ----------------------------------------------
@@ -285,6 +340,7 @@ export type AbcSpendInfo = {
   currencyCode?: string,
   noUnconfirmed?: boolean,
   spendTargets: Array<AbcSpendTarget>,
+  nativeAmount?: string,
   networkFeeOption?: string,
   customNetworkFee?: string,
   metadata?: AbcMetadata
@@ -332,6 +388,7 @@ export type AbcCurrencyInfo = {
 
 export type AbcParsedUri = {
   publicAddress?: string,
+  segwitAddress?: string,
   nativeAmount?: string,
   currencyCode?: string,
   metadata?: AbcMetadata,
@@ -347,6 +404,7 @@ export type AbcParsedUri = {
 
 export type AbcEncodeUri = {
   publicAddress: string,
+  segwitAddress?: string,
   nativeAmount?: string,
   label?: string,
   message?: string
