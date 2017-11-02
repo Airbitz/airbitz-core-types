@@ -68,6 +68,7 @@ export type AbcCorePlugin = AbcCurrencyPluginFactory | AbcExchangePluginFactory
 
 export interface AbcContextCallbacks {
   +onError?: (e: Error) => void;
+  +onExchangeUpdate?: () => void;
 }
 
 export type AbcContextOptions = {
