@@ -464,6 +464,7 @@ export type AbcCurrencyPluginCallbacks = {
 
 export type AbcMakeEngineOptions = {
   walletLocalFolder: any,
+  walletLocalEncryptedFolder: any,
   callbacks: AbcCurrencyPluginCallbacks,
   optionalSettings?: any
 }
