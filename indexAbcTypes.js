@@ -66,6 +66,10 @@ export type AbcIo = {
 /* eslint-disable no-use-before-define */
 export type AbcCorePlugin = AbcCurrencyPluginFactory | AbcExchangePluginFactory
 
+export interface AbcCorePluginOptions {
+  io: AbcIo;
+}
+
 export interface AbcContextCallbacks {
   +onError?: (e: Error) => void;
   +onExchangeUpdate?: () => void;
@@ -423,6 +427,21 @@ export type AbcReceiveAddress = AbcFreshAddress & {
 
 // currency plugin types ----------------------------------------------
 
+export interface AbcCurrencyEngineCallbacks {
+  +onBlockHeightChanged: (blockHeight: number) => void;
+  +onTransactionsChanged: (abcTransactions: Array<AbcTransaction>) => void;
+  +onBalanceChanged: (currencyCode: string, nativeBalance: string) => void;
+  +onAddressesChecked: (progressRatio: number) => void;
+  +onTxidsChanged: (txids: Array<string>) => void;
+}
+
+export interface AbcCurrencyEngineOptions {
+  callbacks: AbcCurrencyEngineCallbacks;
+  walletLocalFolder: any;
+  walletLocalEncryptedFolder: any;
+  optionalSettings?: any;
+}
+
 export interface AbcCurrencyEngine {
   updateSettings(settings: any): void;
   startEngine(): Promise<void>;
@@ -442,37 +461,27 @@ export interface AbcCurrencyEngine {
   saveTx(abcTransaction: AbcTransaction): Promise<void>;
 }
 
-export type AbcCurrencyPlugin = {
-  pluginName: string,
-  currencyInfo: AbcCurrencyInfo,
-  createPrivateKey(walletType: string): any,
-  derivePublicKey(walletInfo: AbcWalletInfo): any,
-  makeEngine(keyInfo: any, opts: any): Promise<AbcCurrencyEngine>,
-  parseUri(uri: string): AbcParsedUri,
-  encodeUri(obj: AbcEncodeUri): string
-}
-
-export type AbcMakeCurrencyPlugin = (opts: any) => Promise<AbcCurrencyPlugin>
-
-export type AbcCurrencyPluginCallbacks = {
-  onBlockHeightChanged(blockHeight: number): void,
-  onTransactionsChanged(abcTransactions: Array<AbcTransaction>): void,
-  onBalanceChanged(currencyCode: string, nativeBalance: string): void,
-  onAddressesChecked(progressRatio: number): void,
-  onTxidsChanged?: (txids: Array<string>) => void
-}
-
-export type AbcMakeEngineOptions = {
-  walletLocalFolder: any,
-  walletLocalEncryptedFolder: any,
-  callbacks: AbcCurrencyPluginCallbacks,
-  optionalSettings?: any
+export interface AbcCurrencyPlugin {
+  +pluginName: string;
+  +currencyInfo: AbcCurrencyInfo;
+  createPrivateKey(walletType: string): {};
+  derivePublicKey(walletInfo: AbcWalletInfo): {};
+  makeEngine(
+    walletInfo: AbcWalletInfo,
+    options: AbcMakeEngineOptions
+  ): Promise<AbcCurrencyEngine>;
+  parseUri(uri: string): AbcParsedUri;
+  encodeUri(obj: AbcEncodeUri): string;
 }
 
 export interface AbcCurrencyPluginFactory {
   pluginType: 'currency';
-  makePlugin(opts: { io: AbcIo }): Promise<AbcCurrencyPlugin>;
+  makePlugin(opts: AbcCorePluginOptions): Promise<AbcCurrencyPlugin>;
 }
+
+// Old names:
+export type AbcMakeEngineOptions = AbcCurrencyEngineOptions
+export type AbcCurrencyPluginCallbacks = AbcCurrencyEngineCallbacks
 
 // exchange plugin types ----------------------------------------------
 
@@ -497,7 +506,7 @@ export interface AbcExchangePlugin {
 
 export interface AbcExchangePluginFactory {
   pluginType: 'exchange';
-  makePlugin(opts: { io: AbcIo }): Promise<AbcExchangePlugin>;
+  makePlugin(opts: AbcCorePluginOptions): Promise<AbcExchangePlugin>;
 }
 
 // JSON API schemas ---------------------------------------------------
