@@ -380,15 +380,25 @@ export interface AbcMetaToken {
 }
 
 export type AbcCurrencyInfo = {
-  walletTypes: Array<string>,
-  currencyName: string,
+  // Basic currency information:
   currencyCode: string,
-  addressExplorer: string,
-  transactionExplorer: string,
-  defaultSettings: any,
+  currencyName: string,
+  pluginName: string,
   denominations: Array<AbcDenomination>,
+  walletTypes: Array<string>,
+
+  // Configuration options:
+  defaultSettings: any,
+  metaTokens: Array<AbcMetaToken>,
+
+  // Explorers:
+  addressExplorer: string,
+  blockExplorer?: string,
+  transactionExplorer: string,
+
+  // Images:
   symbolImage?: string,
-  metaTokens: Array<AbcMetaToken>
+  symbolImageDarkMono?: string
 }
 
 export type AbcParsedUri = {
@@ -476,6 +486,7 @@ export interface AbcCurrencyPlugin {
 
 export interface AbcCurrencyPluginFactory {
   pluginType: 'currency';
+  +pluginName: string;
   makePlugin(opts: AbcCorePluginOptions): Promise<AbcCurrencyPlugin>;
 }
 
