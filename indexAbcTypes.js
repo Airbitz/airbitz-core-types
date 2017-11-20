@@ -487,6 +487,7 @@ export interface AbcCurrencyEngine {
   getBlockHeight(): number;
   enableTokens(tokens: Array<string>): Promise<void>;
   disableTokens(tokens: Array<string>): Promise<void>;
+  getEnabledTokens(): Promise<Array<string>>;
   addCustomToken(token: any): Promise<void>;
   getTokenStatus(token: string): boolean;
   getBalance(options: any): string;
