@@ -393,18 +393,18 @@ export type AbcTransaction = {
   wallet?: AbcCurrencyWallet
 }
 
-export interface AbcDenomination {
-  name: string;
-  multiplier: string;
-  symbol?: string;
+export type AbcDenomination = {
+  name: string,
+  multiplier: string,
+  symbol?: string
 }
 
-export interface AbcMetaToken {
-  currencyCode: string;
-  currencyName: string;
-  denominations: Array<AbcDenomination>;
-  contractAddress?: string;
-  symbolImage?: string;
+export type AbcMetaToken = {
+  currencyCode: string,
+  currencyName: string,
+  denominations: Array<AbcDenomination>,
+  contractAddress?: string,
+  symbolImage?: string
 }
 
 export type AbcCurrencyInfo = {
