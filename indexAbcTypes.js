@@ -348,7 +348,7 @@ export interface AbcLoginRequest {
   displayImageUrl?: string;
 }
 
-type AbcTokenInfo = {
+export type AbcTokenInfo = {
   currencyCode: string,
   currencyName: string,
   contractAddress: string,
