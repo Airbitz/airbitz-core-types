@@ -348,9 +348,49 @@ export interface AbcLoginRequest {
   displayImageUrl?: string;
 }
 
+type AbcTokenInfo = {
+  currencyCode: string,
+  currencyName: string,
+  contractAddress: string,
+  multiplier: string
+}
+
 // currency wallet types ----------------------------------------------
 
-export type AbcCurrencyWallet = any
+export type AbcCurrencyWallet = {
+  id: string,
+  type: string,
+  name: string,
+  currencyCode: string,
+  fiatCurrencyCode: string,
+  currencyInfo: AbcCurrencyInfo,
+  addCustomToken(AbcTokenInfo): any,
+  broadcastTx(AbcTransaction): AbcTransaction,
+  folder(): any,
+  getBalance(): string,
+  getBlockHeight(): number,
+  getMaxSpendable(): Promise<string>,
+  getReceiveAddress(): Promise<AbcReceiveAddress>,
+  getTransactions(): Array<AbcTransaction>,
+  enableTokens(tokenCodes: Array<string>): any,
+  encodeUri(): string,
+  keys(): any,
+  localFolder(): any,
+  lockReceiveAddress(): any,
+  makeAddressQrCode(): any,
+  makeSpend(): AbcTransaction,
+  parseUri(): string,
+  renameWallet(name: string): any,
+  saveReceiveAddress(): any,
+  saveTransaction(AbcTransaction): AbcTransaction,
+  saveTxMetadata(): any,
+  signBroadCastAndSave(AbcSpendInfo): any,
+  signTx(AbcSpendInfo): AbcTransaction,
+  startEngine(): any,
+  stopEngine(): any,
+  sweepPrivateKey(): Promise<0>,
+  tokensEnabled(): any,
+}
 
 export type AbcMetadata = {
   name?: string,
