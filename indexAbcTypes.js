@@ -383,7 +383,7 @@ export type AbcCurrencyWallet = {
   renameWallet(name: string): any,
   saveReceiveAddress(): any,
   saveTransaction(AbcTransaction): AbcTransaction,
-  saveTxMetadata(): any,
+  saveTxMetadata(txId: string, currencyCode: string, abcMetadata: AbcMetadata): any,
   signBroadCastAndSave(AbcSpendInfo): any,
   signTx(AbcSpendInfo): AbcTransaction,
   startEngine(): any,
