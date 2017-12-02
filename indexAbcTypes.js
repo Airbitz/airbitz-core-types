@@ -358,6 +358,7 @@ export type AbcTokenInfo = {
 // currency wallet types ----------------------------------------------
 
 
+export type AbcCurrencyWallet = {
   id: string,
   type: string,
   name: string,
@@ -366,7 +367,7 @@ export type AbcTokenInfo = {
   currencyInfo: AbcCurrencyInfo,
   addCustomToken(AbcTokenInfo): any,
   broadcastTx(AbcTransaction): Promise<AbcTransaction>,
-  folder(): any,
+  folder(): DiskletFolder,
   getBalance({[currencyCode: string]: string}): string,
   getBlockHeight(): number,
   getEnabledTokens(): Promise<Array<string>>,
@@ -376,7 +377,7 @@ export type AbcTokenInfo = {
   enableTokens(tokenCodes: Array<string>): any,
   encodeUri(): string,
   keys(): any,
-  localFolder(): any,
+  localFolder(): DiskletFolder,
   lockReceiveAddress(): any,
   makeAddressQrCode(): any,
   makeSpend(abcSpendInfo: AbcSpendInfo): Promise<AbcTransaction>,
