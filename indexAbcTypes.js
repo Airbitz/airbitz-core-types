@@ -47,6 +47,21 @@ export type AbcScryptFunction = (
   dklen: number
 ) => Promise<Uint8Array>
 
+export type AbcPublicKeyCreateFunction = (
+  privateKeyHex: string,
+  compressed: boolean
+) => Promise<string>
+
+export type AbcPrivateKeyTweakAddFunction = (
+  privateKeyHex: string,
+  tweakHex: string
+) => Promise<string>
+
+export type AbcSecp256k1 = {
+  publicKeyCreate: AbcPublicKeyCreateFunction,
+  privateKeyTweakAdd: AbcPrivateKeyTweakAddFunction
+}
+
 /**
  * Access to plaform-specific resources, with many optional fields.
  * The core will emulate/adapt whatever is missing.
@@ -55,6 +70,7 @@ export type AbcRawIo = {
   // Crypto:
   +random: RandomFunction, // Non-optional & security-critical
   +scrypt?: AbcScryptFunction,
+  +secp256k1?: AbcSecp256k1,
 
   // Local io:
   +console?: AbcConsole,
@@ -77,6 +93,7 @@ export type AbcIo = {
   // Crypto:
   +random: RandomFunction,
   +scrypt: AbcScryptFunction,
+  +secp256k1?: AbcSecp256k1,
 
   // Local io:
   +console: AbcConsole,
