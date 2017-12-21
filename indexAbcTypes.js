@@ -200,6 +200,8 @@ export interface AbcContext {
   // Misc. stuff:
   getCurrencyPlugins(): Promise<Array<AbcCurrencyPlugin>>;
 
+  requestOtpReset(username: string, otpResetToken: string): Promise<void>;
+
   // Shapeshift:
   getExchangeSwapRate(
     fromCurrencyCode: string,
