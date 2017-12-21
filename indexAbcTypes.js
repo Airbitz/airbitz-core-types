@@ -57,9 +57,16 @@ export type AbcPrivateKeyTweakAddFunction = (
   tweakHex: string
 ) => Promise<string>
 
+export type AbcPublicKeyTweakAddFunction = (
+  publicKeyHex: string,
+  tweakHex: string,
+  compressed: boolean
+) => Promise<string>
+
 export type AbcSecp256k1 = {
   publicKeyCreate: AbcPublicKeyCreateFunction,
-  privateKeyTweakAdd: AbcPrivateKeyTweakAddFunction
+  privateKeyTweakAdd: AbcPrivateKeyTweakAddFunction,
+  publicKeyTweakAdd: AbcPublicKeyTweakAddFunction
 }
 
 /**
