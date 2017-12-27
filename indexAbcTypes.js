@@ -221,6 +221,17 @@ export interface AbcContext {
     fromCurrencyCode: string,
     toCurrencyCode: string
   ): Promise<number>;
+
+  getExchangeSwapInfo(
+    fromCurrencyCode: string,
+    toCurrencyCode: string
+  ): Promise<AbcExchangeSwapInfo>;
+}
+
+export type AbcExchangeSwapInfo = {
+  rate: number,
+  nativeMin: string,
+  nativeMax: string
 }
 
 export interface AbcPasswordRules {
