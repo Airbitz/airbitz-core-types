@@ -214,7 +214,9 @@ export interface AbcContext {
   // Misc. stuff:
   getCurrencyPlugins(): Promise<Array<AbcCurrencyPlugin>>;
 
+  // OTP stuff:
   requestOtpReset(username: string, otpResetToken: string): Promise<void>;
+  fetchLoginMessages(): Promise<AbcLoginMessages>;
 
   // Shapeshift:
   getExchangeSwapRate(
@@ -255,6 +257,12 @@ export interface AbcEdgeLoginOptions extends AbcAccountOptions {
   onLogin(e?: Error, account?: AbcAccount): void;
 }
 
+export type AbcLoginMessages = {
+  [username: string]: {
+    otpResetPending: boolean,
+    recovery2Corrupt: boolean
+  }
+}
 // account types ------------------------------------------------------
 
 export type AbcWalletInfo = {
@@ -328,6 +336,7 @@ export interface AbcAccount {
   +username: string;
   +loginKey: string;
   +loggedIn: boolean;
+  +otpEnabled: boolean;
 
   // Exchange-rate info:
   +exchangeCache: any;
@@ -360,6 +369,11 @@ export interface AbcAccount {
 
   // Edge login approval:
   fetchLobby(lobbyId: string): Promise<AbcLobby>;
+
+  // OTP management:
+  enableOtp(timeout?: number): Promise<void>;
+  disableOtp(): Promise<void>;
+  cancelOtpResetRequest(): Promise<void>;
 
   // Adding / deleting / modifying wallet list:
   changeWalletStates(walletStates: AbcWalletStates): Promise<void>;
