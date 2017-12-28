@@ -48,25 +48,37 @@ export type AbcScryptFunction = (
 ) => Promise<Uint8Array>
 
 export type AbcPublicKeyCreateFunction = (
-  privateKeyHex: string,
+  privateKey: Uint8Array,
   compressed: boolean
 ) => Promise<string>
 
 export type AbcPrivateKeyTweakAddFunction = (
-  privateKeyHex: string,
-  tweakHex: string
-) => Promise<string>
+  privateKey: Uint8Array,
+  tweak: Uint8Array
+) => Promise<Uint8Array>
 
 export type AbcPublicKeyTweakAddFunction = (
-  publicKeyHex: string,
-  tweakHex: string,
+  publicKey: Uint8Array,
+  tweak: Uint8Array,
   compressed: boolean
-) => Promise<string>
+) => Promise<Uint8Array>
 
 export type AbcSecp256k1 = {
   publicKeyCreate: AbcPublicKeyCreateFunction,
   privateKeyTweakAdd: AbcPrivateKeyTweakAddFunction,
   publicKeyTweakAdd: AbcPublicKeyTweakAddFunction
+}
+
+export type AbcPbkdf2DeriveAsyncFunction = (
+  key: Uint8Array,
+  salt: Uint8Array,
+  iter: number,
+  len: number,
+  algo: string
+) => Promise<Uint8Array>
+
+export type AbcPbkdf2 = {
+  deriveAsync: AbcPbkdf2DeriveAsyncFunction
 }
 
 /**
@@ -78,6 +90,7 @@ export type AbcRawIo = {
   +random: RandomFunction, // Non-optional & security-critical
   +scrypt?: AbcScryptFunction,
   +secp256k1?: AbcSecp256k1,
+  +pbkdf2?: AbcPbkdf2,
 
   // Local io:
   +console?: AbcConsole,
@@ -101,6 +114,7 @@ export type AbcIo = {
   +random: RandomFunction,
   +scrypt: AbcScryptFunction,
   +secp256k1?: AbcSecp256k1,
+  +pbkdf2?: AbcPbkdf2,
 
   // Local io:
   +console: AbcConsole,
