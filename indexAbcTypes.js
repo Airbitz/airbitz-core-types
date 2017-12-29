@@ -215,7 +215,7 @@ export interface AbcContext {
   getCurrencyPlugins(): Promise<Array<AbcCurrencyPlugin>>;
 
   // OTP stuff:
-  requestOtpReset(username: string, otpResetToken: string): Promise<void>;
+  requestOtpReset(username: string, otpResetToken: string): Promise<Date>;
   fetchLoginMessages(): Promise<AbcLoginMessages>;
 
   // Shapeshift:
@@ -295,8 +295,8 @@ export interface AbcAccountCallbacks {
   +onDataChanged?: () => void;
   +onKeyListChanged?: () => void;
   +onLoggedOut?: () => void;
-  +onOTPRequired?: () => void;
-  +onOTPSkew?: () => void;
+  +onOtpDrift?: (drift: number) => void;
+  +onRemoteOtpChange?: () => void;
   +onRemotePasswordChange?: () => void;
 
   // Currency wallet callbacks:
@@ -337,6 +337,7 @@ export interface AbcAccount {
   +loginKey: string;
   +loggedIn: boolean;
   +otpEnabled: boolean;
+  +otpKey: string | void; // Might exist even if OTP is disabled
 
   // Exchange-rate info:
   +exchangeCache: any;
