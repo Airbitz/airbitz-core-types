@@ -350,8 +350,11 @@ export interface AbcAccount {
 
   // Change or create credentials:
   changePassword(password: string): Promise<void>;
-  changePIN(password: string): Promise<void>;
-  setupRecovery2Questions(
+  changePin(opts: {
+    pin?: string, // We keep the existing PIN if unspecified
+    enableLogin?: boolean // We default to true if unspecified
+  }): Promise<string>;
+  changeRecoveryQuestions(
     questions: Array<string>,
     answers: Array<string>
   ): Promise<string>;
@@ -360,9 +363,9 @@ export interface AbcAccount {
   checkPassword(password: string): Promise<boolean>;
 
   // OTP:
-  +otpEnabled: boolean;
-  +otpKey: string | void; // Might exist even if OTP is disabled
-  cancelOtpResetRequest(): Promise<void>;
+  +otpKey: string | void; // OTP is enabled if this exists
+  +otpResetDate: Date | void; // A reset is requested if this exists
+  cancelOtpReset(): Promise<void>;
   disableOtp(): Promise<void>;
   enableOtp(timeout?: number): Promise<void>;
 
@@ -390,7 +393,10 @@ export interface AbcAccount {
   ): Promise<AbcCurrencyWallet>;
 
   // Deprecated stuff (will be deleted soon):
+  +otpEnabled: boolean;
+  cancelOtpResetRequest(): Promise<void>;
   changeKeyStates(walletStates: AbcWalletStates): Promise<void>;
+  changePIN(password: string): Promise<void>;
   getFirstWallet(type: string): ?AbcWalletInfo;
   getWallet(id: string): AbcWalletInfo;
   isLoggedIn(): boolean;
@@ -398,6 +404,10 @@ export interface AbcAccount {
   passwordSetup(password: string): Promise<void>;
   pinSetup(password: string): Promise<void>;
   recovery2Set(
+    questions: Array<string>,
+    answers: Array<string>
+  ): Promise<string>;
+  setupRecovery2Questions(
     questions: Array<string>,
     answers: Array<string>
   ): Promise<string>;
