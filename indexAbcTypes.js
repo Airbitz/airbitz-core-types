@@ -565,6 +565,10 @@ export interface AbcCurrencyEngine {
   signTx(abcTransaction: AbcTransaction): Promise<AbcTransaction>;
   broadcastTx(abcTransaction: AbcTransaction): Promise<AbcTransaction>;
   saveTx(abcTransaction: AbcTransaction): Promise<void>;
+  resyncBlockchain(): Promise<void>;
+  dumpData(): any;
+  getDisplayPrivateSeed(): string | null;
+  getDisplayPublicSeed(): string | null;
 }
 
 export interface AbcCurrencyPlugin {
