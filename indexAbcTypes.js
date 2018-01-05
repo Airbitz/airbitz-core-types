@@ -335,6 +335,7 @@ export interface AbcAccount {
   +appId: string;
   +loggedIn: boolean;
   +loginKey: string;
+  +recoveryKey: string | void; // For email backup
   +username: string;
 
   // Exchange-rate info:
@@ -361,6 +362,12 @@ export interface AbcAccount {
 
   // Verify existing credentials:
   checkPassword(password: string): Promise<boolean>;
+  checkPin(pin: string): Promise<boolean>;
+
+  // Remove credentials:
+  deletePassword(): Promise<void>;
+  deletePin(): Promise<void>;
+  deleteRecovery(): Promise<void>;
 
   // OTP:
   +otpKey: string | void; // OTP is enabled if this exists
