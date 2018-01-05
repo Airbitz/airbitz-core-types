@@ -523,6 +523,15 @@ export type AbcFreshAddress = {
   segwitAddress?: string
 }
 
+export type AbcDataDump = {
+  walletId: string,
+  walletType: string,
+  pluginType: string,
+  data: {
+    [dataCache: string]: any
+  }
+}
+
 export type AbcReceiveAddress = AbcFreshAddress & {
   metadata: AbcMetadata,
   nativeAmount: string
@@ -566,7 +575,7 @@ export interface AbcCurrencyEngine {
   broadcastTx(abcTransaction: AbcTransaction): Promise<AbcTransaction>;
   saveTx(abcTransaction: AbcTransaction): Promise<void>;
   resyncBlockchain(): Promise<void>;
-  dumpData(): any;
+  dumpData(): AbcDataDump;
   getDisplayPrivateSeed(): string | null;
   getDisplayPublicSeed(): string | null;
 }
