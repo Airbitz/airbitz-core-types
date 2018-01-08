@@ -263,6 +263,7 @@ export type AbcLoginMessages = {
     recovery2Corrupt: boolean
   }
 }
+
 // account types ------------------------------------------------------
 
 export type AbcWalletInfo = {
@@ -355,7 +356,7 @@ export interface AbcAccount {
     pin?: string, // We keep the existing PIN if unspecified
     enableLogin?: boolean // We default to true if unspecified
   }): Promise<string>;
-  changeRecoveryQuestions(
+  changeRecovery(
     questions: Array<string>,
     answers: Array<string>
   ): Promise<string>;
