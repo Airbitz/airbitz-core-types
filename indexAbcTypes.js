@@ -333,11 +333,10 @@ export interface AbcCreateCurrencyWalletOptions {
 export interface AbcAccount {
   // Basic login information:
   +appId: string;
-  +username: string;
-  +loginKey: string;
   +loggedIn: boolean;
-  +otpEnabled: boolean;
-  +otpKey: string | void; // Might exist even if OTP is disabled
+  +loginKey: string;
+  +recoveryKey: string | void; // For email backup
+  +username: string;
 
   // Exchange-rate info:
   +exchangeCache: any;
@@ -345,20 +344,72 @@ export interface AbcAccount {
   // What login method was used?
   +edgeLogin: boolean;
   keyLogin: boolean;
-  pinLogin: boolean;
-  passwordLogin: boolean;
   newAccount: boolean;
+  passwordLogin: boolean;
+  pinLogin: boolean;
   recoveryLogin: boolean;
 
-  // Login management:
-  isLoggedIn(): boolean;
-  logout(): Promise<void>;
-  passwordOk(password: string): Promise<boolean>;
-  checkPassword(password: string): Promise<boolean>;
-  passwordSetup(password: string): Promise<void>;
+  // Change or create credentials:
   changePassword(password: string): Promise<void>;
-  pinSetup(password: string): Promise<void>;
+  changePin(opts: {
+    pin?: string, // We keep the existing PIN if unspecified
+    enableLogin?: boolean // We default to true if unspecified
+  }): Promise<string>;
+  changeRecoveryQuestions(
+    questions: Array<string>,
+    answers: Array<string>
+  ): Promise<string>;
+
+  // Verify existing credentials:
+  checkPassword(password: string): Promise<boolean>;
+  checkPin(pin: string): Promise<boolean>;
+
+  // Remove credentials:
+  deletePassword(): Promise<void>;
+  deletePin(): Promise<void>;
+  deleteRecovery(): Promise<void>;
+
+  // OTP:
+  +otpKey: string | void; // OTP is enabled if this exists
+  +otpResetDate: Date | void; // A reset is requested if this exists
+  cancelOtpReset(): Promise<void>;
+  disableOtp(): Promise<void>;
+  enableOtp(timeout?: number): Promise<void>;
+
+  // Edge login approval:
+  fetchLobby(lobbyId: string): Promise<AbcLobby>;
+
+  // Login management:
+  logout(): Promise<void>;
+
+  // Master wallet list:
+  +allKeys: Array<AbcWalletInfoFull>;
+  changeWalletStates(walletStates: AbcWalletStates): Promise<void>;
+  createWallet(type: string, keys: any): Promise<string>;
+  getFirstWalletInfo(type: string): ?AbcWalletInfo;
+  getWalletInfo(id: string): AbcWalletInfo;
+  listWalletIds(): Array<string>;
+
+  // Currency wallets:
+  +activeWalletIds: Array<string>;
+  +archivedWalletIds: Array<string>;
+  +currencyWallets: { [walletId: string]: AbcCurrencyWallet };
+  createCurrencyWallet(
+    type: string,
+    opts?: AbcCreateCurrencyWalletOptions
+  ): Promise<AbcCurrencyWallet>;
+
+  // Deprecated stuff (will be deleted soon):
+  +otpEnabled: boolean;
+  cancelOtpResetRequest(): Promise<void>;
+  changeKeyStates(walletStates: AbcWalletStates): Promise<void>;
   changePIN(password: string): Promise<void>;
+  getFirstWallet(type: string): ?AbcWalletInfo;
+  getWallet(id: string): AbcWalletInfo;
+  isLoggedIn(): boolean;
+  passwordOk(password: string): Promise<boolean>;
+  passwordSetup(password: string): Promise<void>;
+  pinSetup(password: string): Promise<void>;
   recovery2Set(
     questions: Array<string>,
     answers: Array<string>
@@ -367,36 +418,6 @@ export interface AbcAccount {
     questions: Array<string>,
     answers: Array<string>
   ): Promise<string>;
-
-  // Edge login approval:
-  fetchLobby(lobbyId: string): Promise<AbcLobby>;
-
-  // OTP management:
-  enableOtp(timeout?: number): Promise<void>;
-  disableOtp(): Promise<void>;
-  cancelOtpResetRequest(): Promise<void>;
-
-  // Adding / deleting / modifying wallet list:
-  changeWalletStates(walletStates: AbcWalletStates): Promise<void>;
-  changeKeyStates(walletStates: AbcWalletStates): Promise<void>;
-  createWallet(type: string, keys: any): Promise<string>;
-  createCurrencyWallet(
-    type: string,
-    opts?: AbcCreateCurrencyWalletOptions
-  ): Promise<AbcCurrencyWallet>;
-
-  // Master wallet list:
-  +allKeys: Array<AbcWalletInfoFull>;
-  listWalletIds(): Array<string>;
-  getWallet(id: string): AbcWalletInfo;
-  getWalletInfo(id: string): AbcWalletInfo;
-  getFirstWallet(type: string): ?AbcWalletInfo;
-  getFirstWalletInfo(type: string): ?AbcWalletInfo;
-
-  // Core-managed wallets:
-  +activeWalletIds: Array<string>;
-  +archivedWalletIds: Array<string>;
-  +currencyWallets: { [walletId: string]: AbcCurrencyWallet };
 }
 
 // edge login types ---------------------------------------------------
