@@ -233,7 +233,8 @@ export interface AbcContext {
 export type AbcExchangeSwapInfo = {
   rate: number,
   nativeMin: string,
-  nativeMax: string
+  nativeMax: string,
+  minerFee: string
 }
 
 export interface AbcPasswordRules {
