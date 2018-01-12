@@ -391,6 +391,7 @@ export interface AbcAccount {
   getFirstWalletInfo(type: string): ?AbcWalletInfo;
   getWalletInfo(id: string): AbcWalletInfo;
   listWalletIds(): Array<string>;
+  splitWalletInfo (walletId: string, newWalletType: string): Promise<string>;
 
   // Currency wallets:
   +activeWalletIds: Array<string>;
