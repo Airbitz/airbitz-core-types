@@ -465,7 +465,7 @@ export type AbcSpendInfo = {
   spendTargets: Array<AbcSpendTarget>,
   nativeAmount?: string,
   networkFeeOption?: string,
-  customNetworkFee?: string,
+  customNetworkFee: any,
   metadata?: AbcMetadata
 }
 
