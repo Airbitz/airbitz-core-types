@@ -564,19 +564,19 @@ export type AbcReceiveAddress = AbcFreshAddress & {
 
 // currency plugin types ----------------------------------------------
 
-export interface AbcCurrencyEngineCallbacks {
-  +onBlockHeightChanged: (blockHeight: number) => void;
-  +onTransactionsChanged: (abcTransactions: Array<AbcTransaction>) => void;
-  +onBalanceChanged: (currencyCode: string, nativeBalance: string) => void;
-  +onAddressesChecked: (progressRatio: number) => void;
-  +onTxidsChanged: (txids: Array<string>) => void;
+export type AbcCurrencyEngineCallbacks = {
+  +onBlockHeightChanged: (blockHeight: number) => void,
+  +onTransactionsChanged: (abcTransactions: Array<AbcTransaction>) => void,
+  +onBalanceChanged: (currencyCode: string, nativeBalance: string) => void,
+  +onAddressesChecked: (progressRatio: number) => void,
+  +onTxidsChanged: (txids: Array<string>) => void
 }
 
-export interface AbcCurrencyEngineOptions {
-  callbacks: AbcCurrencyEngineCallbacks;
-  walletLocalFolder: any;
-  walletLocalEncryptedFolder: any;
-  optionalSettings?: any;
+export type AbcCurrencyEngineOptions = {
+  callbacks: AbcCurrencyEngineCallbacks,
+  walletLocalFolder: any,
+  walletLocalEncryptedFolder: any,
+  optionalSettings?: any
 }
 
 export interface AbcCurrencyEngine {
@@ -608,8 +608,8 @@ export interface AbcCurrencyEngine {
 export interface AbcCurrencyPlugin {
   +pluginName: string;
   +currencyInfo: AbcCurrencyInfo;
-  createPrivateKey(walletType: string): {};
-  derivePublicKey(walletInfo: AbcWalletInfo): {};
+  createPrivateKey(walletType: string): any;
+  derivePublicKey(walletInfo: AbcWalletInfo): any;
   makeEngine(
     walletInfo: AbcWalletInfo,
     options: AbcMakeEngineOptions
